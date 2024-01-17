@@ -1,0 +1,45 @@
+@import './base.css';
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+}
+.centered {
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.form-input {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+label {
+  font-weight: bold;
+}
+input {
+  height: 40px;
+}
+.btn {
+  margin-right: 4px;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
