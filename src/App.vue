@@ -1,8 +1,19 @@
 <script setup>
 import { useAppStore } from '@/stores/index'
+import { watch, ref } from 'vue'
 
 const store = useAppStore()
-let overlay = store.loading
+let overlay = ref(false)
+
+watch(
+  store,
+  (state) => {
+    // persist the whole state to the local storage whenever it changes
+    localStorage.setItem('piniaState', JSON.stringify(state))
+    overlay.value = state.loading
+  },
+  { deep: true }
+)
 </script>
 
 <template>
@@ -14,7 +25,7 @@ let overlay = store.loading
 
   <main></main>
   <div v-if="overlay">
-    <v-overlay v-model="overlay"></v-overlay>
+    <v-overlay v-model="overlay" :persistent="true"></v-overlay>
     <v-progress-circular
       class="centered"
       indeterminate="true"

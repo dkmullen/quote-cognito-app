@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { post } from '@/services/apiService'
-import { signIn } from '@/services/authService'
+import { getCurrentUser } from '@/services/authService'
 
 let formData = {
   quote: ref(''),
@@ -24,38 +24,41 @@ function clearForm() {
   for (let item in formData) {
     formData[item].value = ''
   }
-}
-function login() {
-  signIn()
+  errorMessage.value = ''
+  getCurrentUser()
 }
 </script>
 
 <template>
   <form @submit.prevent="sendForm">
-    <h1>Form</h1>
+    <h1>Submit a Quotation</h1>
     <div>
-      <label for="quote" class="required">Quote</label><br />
-      <textarea
-        class="form-input"
+      <v-textarea
         name="quote"
         id="quote"
         rows="10"
         v-model="formData.quote.value"
         @input="errorMessage = ''"
-      ></textarea>
+        label="Quote"
+        class="required"
+      ></v-textarea>
     </div>
     <div>
-      <label for="source">Source</label><br />
-      <input class="form-input" type="text" id="source" v-model="formData.source.value" />
+      <v-text-field type="text" id="source" v-model="formData.source.value" label="Source" />
     </div>
     <div>
-      <label for="source">Link</label><br />
-      <input class="form-input" type="text" id="link" v-model="formData.link.value" />
+      <v-text-field type="text" id="link" v-model="formData.link.value" label="Link" />
     </div>
     <div class="error-message">{{ errorMessage }}</div>
-    <v-btn variant="flat" color="primary" type="submit" class="btn">Submit</v-btn>
-    <v-btn variant="outlined" type="button" class="btn" @click="clearForm">Clear</v-btn>
-    <v-btn variant="flat" type="button" class="btn" @click="login">Sign In</v-btn>
+
+    <v-row dense>
+      <v-col cols="12" md="6">
+        <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-btn variant="flat" block color="primary" type="submit" class="btn">Submit</v-btn>
+      </v-col>
+    </v-row>
   </form>
 </template>
 
@@ -64,16 +67,5 @@ form {
   width: 100%;
   max-width: 500px;
   margin: auto;
-}
-.error-message {
-  height: 10px;
-  color: red;
-  margin-bottom: 1rem;
-  margin-top: -5px;
-  text-align: center;
-}
-.required::after {
-  content: '*';
-  color: red;
 }
 </style>

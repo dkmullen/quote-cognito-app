@@ -10,7 +10,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  let isAuthenticated = false
+  let isAuthenticated = true
   if (!isAuthenticated && to.name !== 'login') {
     return { name: 'login' }
   }

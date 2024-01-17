@@ -12,6 +12,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.creds-form {
+  width: 500px;
+  margin: 0 auto;
+}
 .form-input {
   border: 1px solid lightgray;
   border-radius: 5px;
@@ -20,26 +24,21 @@
   font-size: 16px;
   margin-bottom: 16px;
 }
-label {
-  font-weight: bold;
-}
 input {
   height: 40px;
 }
 .btn {
   margin-right: 4px;
 }
-
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+.btn:last-child {
+  margin-right: 0;
 }
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+.required label::after {
+  content: '*';
+  color: rgb(var(--v-theme-error));
+}
+.error-message {
+  color: rgb(var(--v-theme-error));
+  margin-bottom: 16px;
+  height: 24px;
 }

@@ -1,34 +1,44 @@
 import { AuthenticationDetails, CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js'
+import { useAppStore } from '../stores/index.js'
 
-var authenticationData = {
-  Username: import.meta.env.VITE_APP_USERNAME,
-  Password: import.meta.env.VITE_APP_PW
+function getUserPool() {
+  var poolData = {
+    UserPoolId: import.meta.env.VITE_APP_USERPOOL_ID,
+    ClientId: import.meta.env.VITE_APP_CLIENT_ID
+  }
+  var userPool = new CognitoUserPool(poolData)
+  return userPool
 }
-var authenticationDetails = new AuthenticationDetails(authenticationData)
 
-var poolData = {
-  UserPoolId: import.meta.env.VITE_APP_USERPOOL_ID,
-  ClientId: import.meta.env.VITE_APP_CLIENT_ID
-}
-var userPool = new CognitoUserPool(poolData)
-var userData = {
-  Username: import.meta.env.VITE_APP_USERNAME,
-  Pool: userPool
-}
-var cognitoUser = new CognitoUser(userData)
+export function signIn(payload) {
+  const appStore = useAppStore()
+  appStore.setLoading(true)
+  var authenticationData = {
+    Username: payload.username,
+    Password: payload.password
+  }
+  var authenticationDetails = new AuthenticationDetails(authenticationData)
+  var userPool = getUserPool()
+  var userData = {
+    Username: import.meta.env.VITE_APP_USERNAME,
+    Pool: userPool
+  }
+  var cognitoUser = new CognitoUser(userData)
 
-export function signIn() {
   cognitoUser.authenticateUser(authenticationDetails, {
     onSuccess: function (result) {
       var accessToken = result.getAccessToken().getJwtToken()
       var idToken = result.getIdToken().getJwtToken()
+      localStorage.setItem('cognitoIdToken', idToken)
       console.log(accessToken)
       // id token is the one needed by API Gateway
       console.log(idToken)
+      appStore.setLoading(false)
     },
 
     onFailure: function (err) {
-      alert(err.message || JSON.stringify(err))
+      appStore.setLoading(false)
+      appStore.setLoginErrorMessage(err.message || JSON.stringify(err))
     }
 
     // mfaSetup: function(challengeName, challengeParameters) {
@@ -55,4 +65,28 @@ export function signIn() {
     // 	cognitoUser.sendMFACode(verificationCode, this);
     // },
   })
+}
+
+export function getCurrentUser() {
+  var userPool = getUserPool()
+  var cognitoUser = userPool.getCurrentUser()
+  console.log(cognitoUser)
+  if (cognitoUser != null) {
+    cognitoUser.getSession(function (err, session) {
+      if (err) {
+        alert(err.message || JSON.stringify(err))
+        return
+      }
+      console.log('session validity: ' + session.isValid())
+
+      // NOTE: getSession must be called to authenticate user before calling getUserAttributes
+      cognitoUser.getUserAttributes(function (err, attributes) {
+        if (err) {
+          console.error(err)
+        } else {
+          console.log(attributes)
+        }
+      })
+    })
+  }
 }
