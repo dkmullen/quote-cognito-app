@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { post } from '@/services/apiService'
-import { getCurrentUser } from '@/services/authService'
+import ToolBar from '@/components/ToolBar.vue'
 
 let formData = {
   quote: ref(''),
@@ -9,13 +9,22 @@ let formData = {
   link: ref('')
 }
 let errorMessage = ref('')
-function sendForm() {
+async function sendForm() {
   if (formData.quote.value) {
     let payload = {}
     for (let item in formData) {
       payload[item] = formData[item].value
     }
-    post(payload)
+    try {
+      const res = await post(payload)
+      if (res && res.type === 'error') {
+        errorMessage.value = res.text
+      } else {
+        clearForm()
+      }
+    } catch (error) {
+      errorMessage.value = error.message
+    }
   } else {
     errorMessage.value = 'You forgot the quote'
   }
@@ -25,11 +34,11 @@ function clearForm() {
     formData[item].value = ''
   }
   errorMessage.value = ''
-  getCurrentUser()
 }
 </script>
 
 <template>
+  <ToolBar />
   <form @submit.prevent="sendForm">
     <h1>Submit a Quotation</h1>
     <div>
@@ -57,6 +66,15 @@ function clearForm() {
       </v-col>
       <v-col cols="12" md="6">
         <v-btn variant="flat" block color="primary" type="submit" class="btn">Submit</v-btn>
+      </v-col>
+    </v-row>
+    <v-row class="centered-text">
+      <v-col>
+        <v-chip variant="flat" color="success">Success</v-chip>
+        <v-chip variant="flat" color="secondary">Secondary</v-chip>
+        <v-chip variant="flat" color="warning">warning</v-chip>
+        <v-chip variant="flat" color="info">info</v-chip>
+        <v-chip variant="flat" color="error">error</v-chip>
       </v-col>
     </v-row>
   </form>

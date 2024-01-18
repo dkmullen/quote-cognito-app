@@ -12,6 +12,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.centered-text {
+  text-align: center;
+}
 .creds-form {
   width: 500px;
   margin: 0 auto;
@@ -41,4 +44,8 @@ input {
   color: rgb(var(--v-theme-error));
   margin-bottom: 16px;
   height: 24px;
+}
+.v-overlay-scrim {
+  background-color: black;
+  opacity: 0.2;
 }

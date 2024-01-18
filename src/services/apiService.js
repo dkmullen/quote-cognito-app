@@ -1,13 +1,25 @@
-const url = 'https://h5uwr12hmi.execute-api.us-east-2.amazonaws.com/dev'
+const url = import.meta.env.VITE_APP_API_URL
 
-export function post(payload) {
-  console.log(payload)
-  return fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(payload),
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.getItem('cognitoIdToken')
+export async function post(payload) {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('cognitoIdToken')
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
     }
-  })
+    return await response.json()
+  } catch (error) {
+    console.error('Error:', error)
+    const message = {
+      type: 'error',
+      text: 'Unable to post data'
+    }
+    return message
+  }
 }
