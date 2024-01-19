@@ -34,13 +34,14 @@
           <v-btn color="primary" variant="flat" block type="submit">Login</v-btn>
         </v-col>
       </v-row>
+      <v-btn @click="getIdToken">Token</v-btn>
     </v-container>
   </v-form>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
-import { signIn } from '@/services/authService'
+import { signIn, getIdToken } from '@/services/authService'
 import { useAppStore } from '@/stores/index'
 
 const store = useAppStore()

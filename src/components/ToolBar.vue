@@ -20,7 +20,6 @@ import { useTheme } from 'vuetify'
 
 const theme = useTheme()
 let themeIsDark = theme.global.current.value.dark
-console.log(themeIsDark)
 
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'lightTheme' : 'darkTheme'

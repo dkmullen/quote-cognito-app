@@ -2,15 +2,30 @@
 import { ref } from 'vue'
 import { post } from '@/services/apiService'
 import ToolBar from '@/components/ToolBar.vue'
+import { useAppStore } from '@/stores/index'
+// import { checkIdToken } from '@/services/authService'
+
+const store = useAppStore()
 
 let formData = {
   quote: ref(''),
   source: ref(''),
   link: ref('')
 }
+
 let errorMessage = ref('')
+
+function clearForm() {
+  for (let item in formData) {
+    formData[item].value = ''
+  }
+  errorMessage.value = ''
+  // checkIdToken()
+}
+
 async function sendForm() {
   if (formData.quote.value) {
+    store.setLoading(true)
     let payload = {}
     for (let item in formData) {
       payload[item] = formData[item].value
@@ -19,21 +34,18 @@ async function sendForm() {
       const res = await post(payload)
       if (res && res.type === 'error') {
         errorMessage.value = res.text
+        store.setLoading(false)
       } else {
+        store.setLoading(false)
         clearForm()
       }
     } catch (error) {
       errorMessage.value = error.message
+      store.setLoading(false)
     }
   } else {
     errorMessage.value = 'You forgot the quote'
   }
-}
-function clearForm() {
-  for (let item in formData) {
-    formData[item].value = ''
-  }
-  errorMessage.value = ''
 }
 </script>
 

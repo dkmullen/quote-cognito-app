@@ -1,5 +1,5 @@
 <template>
-  <v-dialog width="500">
+  <v-dialog :width="props.width">
     <template v-slot:activator="{ props }">
       <v-btn icon v-bind="props">
         <v-icon>mdi-logout</v-icon>
@@ -28,7 +28,8 @@ const props = defineProps({
   title: { type: String, default: 'Confirm' },
   message: { String, default: 'Are you sure?' },
   cancelText: { String, default: 'Cancel' },
-  actionText: { String, default: 'Okay' }
+  actionText: { String, default: 'Okay' },
+  width: { String, default: '600' }
 })
 const emit = defineEmits(['doAction'])
 

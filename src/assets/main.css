@@ -19,21 +19,10 @@
   width: 500px;
   margin: 0 auto;
 }
-.form-input {
-  border: 1px solid lightgray;
-  border-radius: 5px;
-  width: 100%;
-  padding: 4px 8px;
-  font-size: 16px;
-  margin-bottom: 16px;
-}
-input {
-  height: 40px;
-}
-.btn {
+.v-chip {
   margin-right: 4px;
 }
-.btn:last-child {
+.v-chip:last-child {
   margin-right: 0;
 }
 .required label::after {
@@ -44,8 +33,4 @@ input {
   color: rgb(var(--v-theme-error));
   margin-bottom: 16px;
   height: 24px;
-}
-.v-overlay-scrim {
-  background-color: black;
-  opacity: 0.2;
 }

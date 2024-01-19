@@ -58,3 +58,31 @@ export function signOut() {
   localStorage.removeItem('currentUser')
   router.push('/login')
 }
+
+/**
+ * Retrieves the ID token from the user's session.
+ * @returns {Promise<string>} The ID token as a string.
+ */
+export async function getIdToken() {
+  const cognitoUser = getUser()
+  if (cognitoUser != null) {
+    return cognitoUser.getSession(function (err, session) {
+      if (err) {
+        return err.message || JSON.stringify(err)
+      }
+      /* Refresh token if less than 4 minutes remains. Cognito will
+         refresh automatically, but only (apparently) after the token expires
+      */
+      if (session.idToken.payload.exp - Date.now() / 1000 < 240) {
+        cognitoUser.refreshSession(session.getRefreshToken(), (err, session) => {
+          if (err) {
+            return JSON.stringify(err)
+          } else {
+            console.info(session)
+          }
+        })
+      }
+      return session.getIdToken().getJwtToken()
+    })
+  }
+}

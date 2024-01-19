@@ -1,13 +1,15 @@
 const url = import.meta.env.VITE_APP_API_URL
+import { getIdToken } from './authService'
 
 export async function post(payload) {
+  const token = await getIdToken()
   try {
     const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + localStorage.getItem('cognitoIdToken')
+        Authorization: 'Bearer ' + token
       }
     })
     if (!response.ok) {
