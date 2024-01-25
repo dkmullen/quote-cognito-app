@@ -7,7 +7,8 @@ export default {
       headers: [
         { title: 'Source', value: 'source' },
         { title: 'Timestamp', value: 'timestamp' },
-        { title: 'Quote', value: 'quote' }
+        { title: 'Quote', value: 'quote' },
+        { title: 'Actions', key: 'actions', sortable: false }
       ],
       search: '',
       items: [],
@@ -24,12 +25,16 @@ export default {
     async getAllQuotes() {
       this.tableItems.loading = true
       const n = await retrieveAll()
-      console.log(n)
       this.tableItems.items = n.Items
-      console.log(this.tableItems.items)
       this.tableItems.loading = false
       this.tableItems.totalItems = n.Count
       this.tableItems.loading = false
+    },
+    editItem(item) {
+      console.log(item)
+    },
+    deleteItem(item) {
+      console.log(item)
     }
   }
 }
@@ -41,9 +46,14 @@ export default {
     :items="tableItems.items"
     item-key="source"
     items-per-page="5"
-  ></v-data-table>
+    :loading="tableItems.loading"
+  >
+    <template v-slot:loading>
+      <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
+    </template>
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon size="small" class="me-2" @click="editItem(item)"> mdi-pencil </v-icon>
+      <v-icon size="small" @click="deleteItem(item)"> mdi-delete </v-icon>
+    </template>
+  </v-data-table>
 </template>
-<!-- @update:options="loadItems" 
-    { title: 'Actions', key: 'actions', sortable: false }
-
--->
