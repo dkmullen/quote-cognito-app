@@ -27,9 +27,9 @@ export async function post(payload) {
   }
 }
 
-export async function retrieveAll() {
+export async function retrieve(postId = 'GETALL') {
   try {
-    const response = await fetch(retrieveUrl, {
+    const response = await fetch(`${retrieveUrl}?id=${postId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

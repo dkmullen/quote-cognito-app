@@ -1,5 +1,5 @@
 <script>
-import { retrieveAll } from '@/services/apiService'
+import { retrieve } from '@/services/apiService'
 
 export default {
   data: () => ({
@@ -24,7 +24,7 @@ export default {
   methods: {
     async getAllQuotes() {
       this.tableItems.loading = true
-      const n = await retrieveAll()
+      const n = await retrieve()
       this.tableItems.items = n.Items
       this.tableItems.loading = false
       this.tableItems.totalItems = n.Count
@@ -32,6 +32,7 @@ export default {
     },
     editItem(item) {
       console.log(item)
+      this.$router.push({ name: 'edit', params: { id: item.timestamp } })
     },
     deleteItem(item) {
       console.log(item)

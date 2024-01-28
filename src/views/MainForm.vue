@@ -1,11 +1,20 @@
 <script setup>
-import { ref } from 'vue'
-import { post } from '@/services/apiService'
+import { ref, onMounted } from 'vue'
+import { post, retrieve } from '@/services/apiService'
 import ToolBar from '@/components/ToolBar.vue'
 import { useAppStore } from '@/stores/index'
+import { useRouter } from 'vue-router'
+
 // import { checkIdToken } from '@/services/authService'
 
 const store = useAppStore()
+const router = useRouter()
+
+onMounted(() => {
+  if (router.currentRoute.value.params.id) {
+    getQuote(router.currentRoute.value.params.id)
+  }
+})
 
 let formData = {
   quote: ref(''),
@@ -21,6 +30,25 @@ function clearForm() {
   }
   errorMessage.value = ''
   // checkIdToken()
+}
+
+async function getQuote(id) {
+  store.setLoading(true)
+  try {
+    const res = await retrieve(id)
+    if (res && res.type === 'error') {
+      errorMessage.value = res.text
+      store.setLoading(false)
+    } else {
+      for (let item in formData) {
+        formData[item].value = res.Item[item]
+      }
+      store.setLoading(false)
+    }
+  } catch (error) {
+    errorMessage.value = error.message
+    store.setLoading(false)
+  }
 }
 
 async function sendForm() {
