@@ -6,8 +6,8 @@ export default {
     tableItems: {
       headers: [
         { title: 'Source', value: 'source' },
-        { title: 'Timestamp', value: 'timestamp' },
-        { title: 'Quote', value: 'quote' },
+        { title: 'Quote', value: 'excerpt' },
+        { title: 'Location', value: 'quoteLocation' },
         { title: 'Actions', key: 'actions', sortable: false }
       ],
       search: '',

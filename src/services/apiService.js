@@ -48,27 +48,3 @@ export async function retrieve(postId = 'GETALL') {
     return message
   }
 }
-
-export async function getImg() {
-  const url = retrieveUrl
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/octet-stream' // Set the Accept header for the expected response type
-    }
-  })
-  console.log(response.body)
-  if (!response.ok) {
-    console.error(`Failed to fetch PDF: ${response.status} ${response.statusText}`)
-    return
-  }
-
-  const bodyStream = response.body
-  const newResponse = new Response(bodyStream)
-  const blob = await newResponse.blob()
-  console.log(blob)
-  const resultUrl = URL.createObjectURL(blob)
-  window.open(resultUrl, '_blank')
-  document.querySelector('img').src = resultUrl
-}

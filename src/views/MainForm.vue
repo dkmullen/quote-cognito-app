@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { post, retrieve, getImg } from '@/services/apiService'
+import { post, retrieve } from '@/services/apiService'
 import ToolBar from '@/components/ToolBar.vue'
 import { useAppStore } from '@/stores/index'
 import { useRouter } from 'vue-router'
@@ -19,7 +19,7 @@ onMounted(() => {
 let formData = {
   quote: ref(''),
   source: ref(''),
-  link: ref('')
+  quoteLocation: ref('')
 }
 
 let errorMessage = ref('')
@@ -96,7 +96,12 @@ async function sendForm() {
       <v-text-field type="text" id="source" v-model="formData.source.value" label="Source" />
     </div>
     <div>
-      <v-text-field type="text" id="link" v-model="formData.link.value" label="Link" />
+      <v-text-field
+        type="text"
+        id="location"
+        v-model="formData.quoteLocation.value"
+        label="Location"
+      />
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
@@ -114,7 +119,7 @@ async function sendForm() {
         <v-chip variant="flat" color="secondary">Secondary</v-chip>
         <v-chip variant="flat" color="warning">warning</v-chip>
         <v-chip variant="flat" color="info">info</v-chip>
-        <v-chip variant="flat" color="error" @click="getImg">error</v-chip>
+        <v-chip variant="flat" color="error">error</v-chip>
       </v-col>
     </v-row>
   </form>
