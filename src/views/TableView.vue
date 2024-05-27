@@ -5,9 +5,10 @@ export default {
   data: () => ({
     tableItems: {
       headers: [
+        { title: 'Speaker', value: 'speaker' },
+        { title: 'Quote', value: 'quote' },
         { title: 'Source', value: 'source' },
-        { title: 'Quote', value: 'excerpt' },
-        { title: 'Location', value: 'quoteLocation' },
+        { title: 'Id', value: 'id' },
         { title: 'Actions', key: 'actions', sortable: false }
       ],
       search: '',
@@ -32,7 +33,6 @@ export default {
     },
     editItem(item) {
       console.log(item)
-      this.$router.push({ name: 'edit', params: { id: item.timestamp } })
     },
     deleteItem(item) {
       console.log(item)

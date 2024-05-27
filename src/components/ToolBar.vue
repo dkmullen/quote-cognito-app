@@ -1,7 +1,7 @@
 <template>
   <v-toolbar density="compact" color="primary">
     <v-app-bar-nav-icon></v-app-bar-nav-icon>
-    <v-toolbar-title>Title</v-toolbar-title>
+    <v-toolbar-title>Quotes Manager</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon @click="toggleTheme">
       <v-icon v-if="!themeIsDark">mdi-weather-night</v-icon>

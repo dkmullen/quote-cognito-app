@@ -1,11 +1,10 @@
-const postUrl = import.meta.env.VITE_APP_API_POST_URL
-const retrieveUrl = import.meta.env.VITE_APP_API_RETRIEVE_URL
+const apiUrl = import.meta.env.VITE_APP_API_URL
 import { getIdToken } from './authService'
 
 export async function post(payload) {
   const token = await getIdToken()
   try {
-    const response = await fetch(postUrl, {
+    const response = await fetch(`${apiUrl}/admin`, {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: {
@@ -13,10 +12,11 @@ export async function post(payload) {
         Authorization: 'Bearer ' + token
       }
     })
+    console.log('response', response)
     if (!response.ok) {
       throw new Error('Network response was not ok')
     }
-    return await response.json()
+    return response.json()
   } catch (error) {
     console.error('Error:', error)
     const message = {
@@ -27,9 +27,10 @@ export async function post(payload) {
   }
 }
 
-export async function retrieve(postId = 'GETALL') {
+export async function retrieve(id = null) {
+  const path = id || id === 0 ? `/admin?id=${id}` : '/admin'
   try {
-    const response = await fetch(`${retrieveUrl}?id=${postId}`, {
+    const response = await fetch(apiUrl + path, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
