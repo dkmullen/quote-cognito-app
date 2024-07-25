@@ -8,7 +8,8 @@ const router = createRouter({
     { path: '/', name: 'home', component: MainForm },
     { path: '/:id', name: 'edit', component: MainForm },
     { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
-    { path: '/table', name: 'table', component: () => import('@/views/TableView.vue') }
+    { path: '/table', name: 'table', component: () => import('@/views/TableView.vue') },
+    { path: '/cars', name: 'cars', component: () => import('@/views/CarForm.vue') }
   ]
 })
 
