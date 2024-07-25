@@ -17,13 +17,21 @@ onMounted(() => {
   }
 })
 
-let formData = reactive({
+const formData = reactive({
   name: '',
   comments: '',
   date: '',
   item: '',
   mileage: ''
 })
+
+const formObj = [
+  { name: 'name', label: 'Car', model: 'name' },
+  { name: 'date', label: 'Date', model: 'date' },
+  { name: 'mileage', label: 'Mileage', model: 'mileage' },
+  { name: 'item', label: 'Item', model: 'item' },
+  { name: 'comments', label: 'Comments', model: 'comments' }
+]
 
 const randomQuote = ref(null)
 
@@ -45,7 +53,6 @@ async function getQuote(id) {
       errorMessage.value = res.text
     } else if (id === 0) {
       randomQuote.value = res.Item
-      console.log(randomQuote.value)
     } else {
       for (let item in formData) {
         formData[item].value = res.Item[item]
@@ -60,6 +67,7 @@ async function getQuote(id) {
 }
 
 async function sendForm() {
+  console.log(formData)
   if (formData.name) {
     store.setLoading(true)
     let payload = {}
@@ -89,31 +97,23 @@ async function sendForm() {
   <ToolBar />
   <form @submit.prevent="sendForm">
     <h1>Submit a Maintenance Item</h1>
-    <v-text-field type="text" id="date" v-model="formData.date" label="Date" />
-    <v-text-field type="text" id="name" v-model="formData.name" label="Car" />
-    <div>
+    <div v-for="item in formObj" :key="item.name">
+      <v-text-field
+        v-if="item.name !== 'comments' && item.name !== 'item'"
+        :type="item.type ? item.type : 'text'"
+        :id="item.name"
+        v-model="formData[item.model]"
+        :label="item.label"
+      />
       <v-textarea
-        name="item"
-        id="item"
+        v-if="item.name === 'comments' || item.name === 'item'"
+        name="item.name"
+        id="item.id"
         rows="4"
-        v-model="formData.item"
+        v-model="formData[item.model]"
         @input="errorMessage = ''"
-        label="Item"
-        class="required"
+        :label="item.label"
       ></v-textarea>
-    </div>
-    <div>
-      <v-textarea
-        name="comments"
-        id="comments"
-        rows="6"
-        v-model="formData.comments"
-        @input="errorMessage = ''"
-        label="Comments"
-      ></v-textarea>
-    </div>
-    <div>
-      <v-text-field type="text" id="mileage" v-model="formData.mileage" label="Mileage" />
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
