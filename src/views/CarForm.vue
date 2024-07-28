@@ -45,6 +45,10 @@ function clearForm() {
   // checkIdToken()
 }
 
+function updateValue(event) {
+  console.log(event.target.value)
+}
+
 async function getQuote(id) {
   store.setLoading(true)
   try {
@@ -67,6 +71,7 @@ async function getQuote(id) {
 }
 
 async function sendForm() {
+  console.log(formData)
   if (formData.name) {
     store.setLoading(true)
     let payload = {}
@@ -104,6 +109,7 @@ async function sendForm() {
         :label="item.label"
         :items="item.items"
         :rows="item.rows"
+        @input="updateValue"
       />
       <!-- v-model="formData[item.model]" -->
     </div>
