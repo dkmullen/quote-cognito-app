@@ -4,6 +4,7 @@ import { postCarItem, retrieve } from '@/services/apiService'
 import ToolBar from '@/components/ToolBar.vue'
 import { useAppStore } from '@/stores/index'
 import { useRouter } from 'vue-router'
+import BaseInput from '@/components/BaseComponents/BaseInput.vue'
 
 // import { checkIdToken } from '@/services/authService'
 
@@ -18,30 +19,29 @@ onMounted(() => {
 })
 
 const formData = reactive({
-  name: '',
-  comments: '',
-  date: '',
-  item: '',
-  mileage: ''
+  name: null,
+  comments: null,
+  date: null,
+  item: null,
+  mileage: null
 })
 
 const formObj = [
-  { name: 'name', label: 'Car', model: 'name' },
-  { name: 'date', label: 'Date', model: 'date' },
-  { name: 'mileage', label: 'Mileage', model: 'mileage' },
-  { name: 'item', label: 'Item', model: 'item' },
-  { name: 'comments', label: 'Comments', model: 'comments' }
+  { name: 'name', label: 'Car', model: 'name', inputType: 'select', items: ['Civic', 'Element'] },
+  { name: 'date', label: 'Date', model: 'date', inputType: 'text', type: 'date' },
+  { name: 'mileage', label: 'Mileage', model: 'mileage', inputType: 'text' },
+  { name: 'item', label: 'Maintenance work', model: 'item', inputType: 'textarea' },
+  { name: 'comments', label: 'Comments', model: 'comments', inputType: 'textarea', rows: 6 }
 ]
 
 const randomQuote = ref(null)
-
-let errorMessage = ref('')
+let errorMessage = ref(null)
 
 function clearForm() {
   for (let item in formData) {
-    formData[item] = ''
+    formData[item] = null
   }
-  errorMessage.value = ''
+  errorMessage.value = null
   // checkIdToken()
 }
 
@@ -67,7 +67,6 @@ async function getQuote(id) {
 }
 
 async function sendForm() {
-  console.log(formData)
   if (formData.name) {
     store.setLoading(true)
     let payload = {}
@@ -98,22 +97,15 @@ async function sendForm() {
   <form @submit.prevent="sendForm">
     <h1>Submit a Maintenance Item</h1>
     <div v-for="item in formObj" :key="item.name">
-      <v-text-field
-        v-if="item.name !== 'comments' && item.name !== 'item'"
-        :type="item.type ? item.type : 'text'"
+      <BaseInput
+        :type="item.type"
+        :inputType="item.inputType"
         :id="item.name"
-        v-model="formData[item.model]"
         :label="item.label"
+        :items="item.items"
+        :rows="item.rows"
       />
-      <v-textarea
-        v-if="item.name === 'comments' || item.name === 'item'"
-        name="item.name"
-        id="item.id"
-        rows="4"
-        v-model="formData[item.model]"
-        @input="errorMessage = ''"
-        :label="item.label"
-      ></v-textarea>
+      <!-- v-model="formData[item.model]" -->
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
