@@ -1,21 +1,12 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { post, retrieve } from '@/services/apiService'
+import { ref } from 'vue'
+import { post } from '@/services/apiService'
 import ToolBar from '@/components/ToolBar.vue'
 import { useAppStore } from '@/stores/index'
-import { useRouter } from 'vue-router'
-
+import QuoteDisplay from '@/components/QuoteDisplay.vue'
 // import { checkIdToken } from '@/services/authService'
 
 const store = useAppStore()
-const router = useRouter()
-
-onMounted(() => {
-  getQuote(0)
-  if (router.currentRoute.value.params.id) {
-    getQuote(router.currentRoute.value.params.id)
-  }
-})
 
 let formData = {
   id: ref(null),
@@ -23,8 +14,6 @@ let formData = {
   speaker: ref(null),
   source: ref(null)
 }
-
-const randomQuote = ref(null)
 
 let errorMessage = ref('')
 
@@ -34,28 +23,6 @@ function clearForm() {
   }
   errorMessage.value = ''
   // checkIdToken()
-}
-
-async function getQuote(id) {
-  store.setLoading(true)
-  try {
-    const res = await retrieve(id)
-    if (res && res.type === 'error') {
-      errorMessage.value = res.text
-    } else if (id === 0) {
-      randomQuote.value = res.Item
-      console.log(randomQuote.value)
-    } else {
-      for (let item in formData) {
-        formData[item].value = res.Item[item]
-      }
-    }
-  } catch (error) {
-    errorMessage.value = error.message
-    store.setLoading(false)
-  } finally {
-    store.setLoading(false)
-  }
 }
 
 async function sendForm() {
@@ -125,12 +92,7 @@ async function sendForm() {
       </v-col>
     </v-row>
   </form>
-  <div class="centered-text mt-6" v-if="randomQuote" id="quote-box" color="secondary">
-    <p>{{ randomQuote.quote }}</p>
-    <p>
-      <b>{{ randomQuote.speaker }} {{ randomQuote.source ? `- ${randomQuote.source}` : '' }}</b>
-    </p>
-  </div>
+  <QuoteDisplay />
 </template>
 
 <style>

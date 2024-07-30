@@ -1,42 +1,21 @@
 <script setup>
+defineOptions({
+  inheritAttrs: false
+})
 const props = defineProps({
-  label: { type: String, default: 'Label' },
-  type: { type: String, default: 'text' },
-  id: { type: String },
   items: { type: Array },
   inputType: { type: String, default: 'text' },
   rows: { type: Number, default: 4 }
 })
-
-const emit = defineEmits(['input'])
-
-function updateValue(event) {
-  emit('input', event)
-}
 </script>
 <template>
   <div v-if="props.inputType === 'text'">
-    <v-text-field
-      :label="props.label"
-      :type="props.type"
-      :id="props.id"
-      @input="updateValue"
-    ></v-text-field>
+    <v-text-field v-bind="$attrs"></v-text-field>
   </div>
   <div v-if="props.inputType === 'select'">
-    <v-select
-      :label="props.label"
-      :items="props.items"
-      :id="props.id"
-      @input="updateValue"
-    ></v-select>
+    <v-select v-bind="$attrs" :items="props.items"></v-select>
   </div>
   <div v-if="props.inputType === 'textarea'">
-    <v-textarea
-      :label="props.label"
-      :id="props.id"
-      :rows="props.rows"
-      @input="updateValue"
-    ></v-textarea>
+    <v-textarea v-bind="$attrs" :rows="props.rows"></v-textarea>
   </div>
 </template>

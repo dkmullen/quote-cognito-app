@@ -5,6 +5,7 @@ import ToolBar from '@/components/ToolBar.vue'
 import { useAppStore } from '@/stores/index'
 import { useRouter } from 'vue-router'
 import BaseInput from '@/components/BaseComponents/BaseInput.vue'
+import QuoteDisplay from '@/components/QuoteDisplay.vue'
 
 // import { checkIdToken } from '@/services/authService'
 
@@ -28,8 +29,8 @@ const formData = reactive({
 
 const formObj = [
   { name: 'name', label: 'Car', model: 'name', inputType: 'select', items: ['Civic', 'Element'] },
-  { name: 'date', label: 'Date', model: 'date', inputType: 'text', type: 'date' },
-  { name: 'mileage', label: 'Mileage', model: 'mileage', inputType: 'text' },
+  { name: 'date', label: 'Date', model: 'date', type: 'date' },
+  { name: 'mileage', label: 'Mileage', model: 'mileage' },
   { name: 'item', label: 'Maintenance work', model: 'item', inputType: 'textarea' },
   { name: 'comments', label: 'Comments', model: 'comments', inputType: 'textarea', rows: 6 }
 ]
@@ -43,10 +44,6 @@ function clearForm() {
   }
   errorMessage.value = null
   // checkIdToken()
-}
-
-function updateValue(event) {
-  console.log(event.target.value)
 }
 
 async function getQuote(id) {
@@ -71,7 +68,6 @@ async function getQuote(id) {
 }
 
 async function sendForm() {
-  console.log(formData)
   if (formData.name) {
     store.setLoading(true)
     let payload = {}
@@ -109,9 +105,8 @@ async function sendForm() {
         :label="item.label"
         :items="item.items"
         :rows="item.rows"
-        @input="updateValue"
+        v-model="formData[item.model]"
       />
-      <!-- v-model="formData[item.model]" -->
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
@@ -124,12 +119,7 @@ async function sendForm() {
       </v-col>
     </v-row>
   </form>
-  <div class="centered-text mt-6" v-if="randomQuote" id="quote-box" color="secondary">
-    <p>{{ randomQuote.quote }}</p>
-    <p>
-      <b>{{ randomQuote.speaker }} {{ randomQuote.source ? `- ${randomQuote.source}` : '' }}</b>
-    </p>
-  </div>
+  <QuoteDisplay />
 </template>
 
 <style>
