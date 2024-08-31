@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { post } from '@/services/apiService'
-import ToolBar from '@/components/ToolBar.vue'
 import { useAppStore } from '@/stores/index'
 import QuoteDisplay from '@/components/QuoteDisplay.vue'
 // import { checkIdToken } from '@/services/authService'
@@ -53,7 +52,6 @@ async function sendForm() {
 </script>
 
 <template>
-  <ToolBar />
   <form @submit.prevent="sendForm">
     <h1>Submit a Quotation</h1>
     <div>

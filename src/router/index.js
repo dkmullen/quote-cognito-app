@@ -15,6 +15,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   let validUser = getUser()
+  console.log(validUser)
   if (!validUser && to.name !== 'login') {
     return { name: 'login' }
   } else if (validUser && to.name === 'login') {

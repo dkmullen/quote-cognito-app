@@ -15,6 +15,10 @@ export const useAppStore = defineStore('app', {
     },
     setCurrentUser(user) {
       this.currentUser = user
+    },
+    handleGlobalErrors(errorObject) {
+      console.error('Error object:', errorObject)
+      // Add code for UI notifications, reporting or other error handling logic
     }
   }
 })

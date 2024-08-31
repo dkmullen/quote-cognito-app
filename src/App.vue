@@ -1,6 +1,7 @@
 <script setup>
 import { useAppStore } from '@/stores/index'
 import { watch, ref } from 'vue'
+import ToolBar from './components/ToolBar.vue'
 
 const store = useAppStore()
 let overlay = ref(false)
@@ -19,10 +20,11 @@ watch(
 <template>
   <header>
     <div class="wrapper">
-      <router-view></router-view>
+      <ToolBar />
     </div>
   </header>
 
+  <router-view></router-view>
   <main></main>
   <div v-if="overlay">
     <v-overlay v-model="overlay" :persistent="true"></v-overlay>

@@ -1,7 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { postCarItem, retrieve } from '@/services/apiService'
-import ToolBar from '@/components/ToolBar.vue'
 import { useAppStore } from '@/stores/index'
 import { useRouter } from 'vue-router'
 import BaseInput from '@/components/BaseComponents/BaseInput.vue'
@@ -94,7 +93,6 @@ async function sendForm() {
 </script>
 
 <template>
-  <ToolBar />
   <form @submit.prevent="sendForm">
     <h1>Submit a Maintenance Item</h1>
     <div v-for="item in formObj" :key="item.name">

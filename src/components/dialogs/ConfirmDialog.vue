@@ -1,18 +1,10 @@
 <template>
-  <v-dialog :width="props.width">
-    <template v-slot:activator="{ props }">
-      <v-btn icon v-bind="props">
-        <v-icon>mdi-logout</v-icon>
-      </v-btn>
-    </template>
-
+  <v-dialog :width="props.width" v-model="dialog">
     <template v-slot:default="{ isActive }">
       <v-card :title="props.title">
         <v-card-text> {{ props.message }} </v-card-text>
-
         <v-card-actions>
           <v-spacer></v-spacer>
-
           <v-btn :text="props.cancelText" @click="isActive.value = false"></v-btn>
           <v-btn variant="flat" color="primary" @click="doAction(), (isActive.value = false)">{{
             props.actionText
@@ -24,6 +16,9 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const dialog = ref(false)
 const props = defineProps({
   title: { type: String, default: 'Confirm' },
   message: { String, default: 'Are you sure?' },
@@ -33,8 +28,14 @@ const props = defineProps({
 })
 const emit = defineEmits(['doAction'])
 
+defineExpose({ setDialog })
+
 function doAction() {
   emit('doAction')
+}
+function setDialog(bool) {
+  console.log('setDialog', bool)
+  dialog.value = bool
 }
 </script>
 
