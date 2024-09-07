@@ -4,6 +4,7 @@ import { post } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
 import QuoteDisplay from '@/components/QuoteDisplay.vue'
 // import { checkIdToken } from '@/services/authService'
+import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 
 const store = useAppStore()
 
@@ -49,6 +50,21 @@ async function sendForm() {
     errorMessage.value = 'You forgot the quote'
   }
 }
+function doQb(qb) {
+  top.value = `${getOffset(qb).top}px`
+  console.log(top.value)
+  confirmD.value.setDialog(true)
+}
+function getOffset(id) {
+  const el = document.getElementById(id)
+  const rect = el.getBoundingClientRect()
+  return {
+    left: rect.left + window.scrollX,
+    top: rect.top + window.scrollY
+  }
+}
+const top = ref('100px')
+const confirmD = ref(null)
 </script>
 
 <template>
@@ -90,7 +106,13 @@ async function sendForm() {
       </v-col>
     </v-row>
   </form>
+  <v-checkbox id="qb1" @click="doQb('qb1')" label="Checkbox"></v-checkbox>
+  <v-checkbox id="qb2" @click="doQb('qb2')" label="Checkbox"></v-checkbox>
+  <v-checkbox id="qb3" @click="doQb('qb3')" label="Checkbox"></v-checkbox>
+  <v-checkbox id="qb4" @click="doQb('qb4')" label="Checkbox"></v-checkbox>
+
   <QuoteDisplay />
+  <ConfirmDialog ref="confirmD" :top="top" />
 </template>
 
 <style>

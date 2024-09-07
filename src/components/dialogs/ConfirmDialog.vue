@@ -1,7 +1,13 @@
 <template>
-  <v-dialog :width="props.width" v-model="dialog">
+  <v-dialog
+    :width="props.width"
+    v-model="dialog"
+    id="wha"
+    style="align-items: unset"
+    :style="{ top: props.top }"
+  >
     <template v-slot:default="{ isActive }">
-      <v-card :title="props.title">
+      <v-card :title="props.title" id="dialog-card">
         <v-card-text> {{ props.message }} </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -24,7 +30,8 @@ const props = defineProps({
   message: { String, default: 'Are you sure?' },
   cancelText: { String, default: 'Cancel' },
   actionText: { String, default: 'Okay' },
-  width: { String, default: '600' }
+  width: { String, default: '600' },
+  top: { String, default: '100px' }
 })
 const emit = defineEmits(['doAction'])
 
@@ -34,9 +41,6 @@ function doAction() {
   emit('doAction')
 }
 function setDialog(bool) {
-  console.log('setDialog', bool)
   dialog.value = bool
 }
 </script>
-
-<style lang="scss" scoped></style>

@@ -39,7 +39,7 @@ export function signIn(payload) {
       var idToken = result.getIdToken().getJwtToken()
       localStorage.setItem('cognitoIdToken', idToken)
       appStore.setLoading(false)
-      router.push('/')
+      router.push({ name: 'home' })
     },
 
     onFailure: function (err) {
@@ -56,19 +56,27 @@ export function signOut() {
   }
   localStorage.removeItem('cognitoIdToken')
   localStorage.removeItem('currentUser')
-  router.push('/login')
+  router.push({ name: 'login' })
 }
 
 /**
  * Retrieves the ID token from the user's session.
  * @returns {Promise<string>} The ID token as a string.
  */
+let refreshAttempts = 0
+
 export async function getIdToken() {
   const cognitoUser = getUser()
   if (cognitoUser != null) {
     return cognitoUser.getSession(function (err, session) {
       if (err) {
-        return err.message || JSON.stringify(err)
+        console.error('Error here', err)
+        if (refreshAttempts < 1) {
+          refreshAttempts++
+          tryAgain()
+        } else {
+          return err.message || JSON.stringify(err)
+        }
       }
       /* Refresh token if less than 4 minutes remains. Cognito will
          refresh automatically, but only (apparently) after the token expires
@@ -76,6 +84,7 @@ export async function getIdToken() {
       if (session.idToken.payload.exp - Date.now() / 1000 < 240) {
         cognitoUser.refreshSession(session.getRefreshToken(), (err, session) => {
           if (err) {
+            refreshAttempts++
             return JSON.stringify(err)
           } else {
             console.info(session)
@@ -85,4 +94,11 @@ export async function getIdToken() {
       return session.getIdToken().getJwtToken()
     })
   }
+}
+
+function tryAgain() {
+  console.log('Trying again')
+  setTimeout(() => {
+    return getIdToken()
+  }, 1000)
 }
