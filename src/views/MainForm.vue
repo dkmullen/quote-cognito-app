@@ -96,7 +96,7 @@ const confirmD = ref(null)
         <v-btn variant="flat" block color="primary" type="submit" class="btn">Submit</v-btn>
       </v-col>
     </v-row>
-    <v-row class="centered-text">
+    <!-- <v-row class="centered-text">
       <v-col>
         <v-chip variant="flat" color="success">Success</v-chip>
         <v-chip variant="flat" color="secondary">Secondary</v-chip>
@@ -104,13 +104,8 @@ const confirmD = ref(null)
         <v-chip variant="flat" color="info">info</v-chip>
         <v-chip variant="flat" color="error">error</v-chip>
       </v-col>
-    </v-row>
+    </v-row> -->
   </form>
-  <v-checkbox id="qb1" @click="doQb('qb1')" label="Checkbox"></v-checkbox>
-  <v-checkbox id="qb2" @click="doQb('qb2')" label="Checkbox"></v-checkbox>
-  <v-checkbox id="qb3" @click="doQb('qb3')" label="Checkbox"></v-checkbox>
-  <v-checkbox id="qb4" @click="doQb('qb4')" label="Checkbox"></v-checkbox>
-
   <QuoteDisplay />
   <ConfirmDialog ref="confirmD" :top="top" />
 </template>

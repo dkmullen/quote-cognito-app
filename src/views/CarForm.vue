@@ -31,7 +31,7 @@ const formObj = [
   { name: 'date', label: 'Date', model: 'date', type: 'date' },
   { name: 'mileage', label: 'Mileage', model: 'mileage' },
   { name: 'item', label: 'Maintenance work', model: 'item', inputType: 'textarea' },
-  { name: 'comments', label: 'Comments', model: 'comments', inputType: 'textarea', rows: 6 }
+  { name: 'comments', label: 'Comments', model: 'comments', inputType: 'textarea', rows: 4 }
 ]
 
 const randomQuote = ref(null)

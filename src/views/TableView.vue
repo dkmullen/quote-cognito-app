@@ -9,7 +9,7 @@ export default {
         { title: 'Quote', value: 'quote' },
         { title: 'Source', value: 'source' },
         { title: 'Id', value: 'id' },
-        { title: 'Actions', key: 'actions', sortable: false }
+        { title: 'Actions', key: 'actions', sortable: false, width: '100px' }
       ],
       search: '',
       items: [],
@@ -44,9 +44,11 @@ export default {
 <template>
   <v-data-table
     :headers="tableItems.headers"
+    fixed-header
     :items="tableItems.items"
     item-key="source"
-    items-per-page="5"
+    items-per-page="100"
+    height="84vh"
     :loading="tableItems.loading"
   >
     <template v-slot:loading>

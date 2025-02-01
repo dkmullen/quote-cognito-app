@@ -23,8 +23,9 @@ watch(
       <ToolBar />
     </div>
   </header>
-
-  <router-view></router-view>
+  <div class="page-wrapper">
+    <router-view></router-view>
+  </div>
   <main></main>
   <div v-if="overlay">
     <v-overlay v-model="overlay" :persistent="true"></v-overlay>
@@ -38,4 +39,15 @@ watch(
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+header {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.page-wrapper {
+  position: relative;
+  top: 40px;
+}
+</style>

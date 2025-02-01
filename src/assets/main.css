@@ -2,7 +2,7 @@
 
 :root {
   --primary: #1c4d9c;
-  --secondary: #298285;
+  --secondary: #3a3b3b;
 }
 #app {
   max-width: 1280px;
@@ -37,4 +37,10 @@
   color: rgb(var(--v-theme-error));
   margin-bottom: 16px;
   height: 24px;
+}
+.v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th,
+.v-data-table-footer {
+  background-color: var(--secondary) !important;
+  padding: 2px 8px !important;
+  color: white;
 }
