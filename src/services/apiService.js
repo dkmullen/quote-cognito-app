@@ -78,3 +78,27 @@ export async function postCarItem(payload) {
     return message
   }
 }
+
+export async function getArticle() {
+  console.log('check')
+  const path = `https://39wdm3yvlb.execute-api.us-east-1.amazonaws.com/dev/articles?id=1`
+  try {
+    const response = await fetch(path, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    return await response.json()
+  } catch (error) {
+    console.error('Error:', error)
+    const message = {
+      type: 'error',
+      text: 'Unable to retrieve data'
+    }
+    return message
+  }
+}

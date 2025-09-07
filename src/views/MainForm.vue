@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { post } from '@/services/apiService'
+import { post, getArticle } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
 import QuoteDisplay from '@/components/QuoteDisplay.vue'
 // import { checkIdToken } from '@/services/authService'
@@ -65,6 +65,19 @@ function getOffset(id) {
 }
 const top = ref('100px')
 const confirmD = ref(null)
+
+async function fetchArticle() {
+  store.setLoading(true)
+  try {
+  const res = await getArticle()
+  console.log(res.Item.body)
+  } catch (err) {
+    console.log(err)
+  } finally {
+    store.setLoading(false)
+  }
+
+}
 </script>
 
 <template>
@@ -96,15 +109,15 @@ const confirmD = ref(null)
         <v-btn variant="flat" block color="primary" type="submit" class="btn">Submit</v-btn>
       </v-col>
     </v-row>
-    <!-- <v-row class="centered-text">
+    <v-row class="centered-text">
       <v-col>
-        <v-chip variant="flat" color="success">Success</v-chip>
+        <v-chip @click="fetchArticle" variant="flat" color="success">Success</v-chip>
         <v-chip variant="flat" color="secondary">Secondary</v-chip>
         <v-chip variant="flat" color="warning">warning</v-chip>
         <v-chip variant="flat" color="info">info</v-chip>
         <v-chip variant="flat" color="error">error</v-chip>
       </v-col>
-    </v-row> -->
+    </v-row>
   </form>
   <QuoteDisplay />
   <ConfirmDialog ref="confirmD" :top="top" />
