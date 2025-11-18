@@ -34,14 +34,16 @@
           <v-btn color="primary" variant="flat" block type="submit">Login</v-btn>
         </v-col>
       </v-row>
-      <v-btn @click="getIdToken">Token</v-btn>
+      <!-- <v-btn @click="getIdToken">Token</v-btn> -->
     </v-container>
   </v-form>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
-import { signIn, getIdToken } from '@/services/authService'
+// import { signIn, getIdToken } from '@/services/authService'
+import { doLogIn } from '@/services/authAmplify'
+
 import { useAppStore } from '@/stores/index'
 
 const store = useAppStore()
@@ -71,7 +73,8 @@ async function login() {
     for (let item in formData) {
       payload[item] = formData[item].value
     }
-    signIn(payload)
+    console.log(payload)
+    doLogIn(payload)
   }
 }
 </script>
