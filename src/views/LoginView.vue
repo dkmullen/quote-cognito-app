@@ -73,7 +73,6 @@ async function login() {
     for (let item in formData) {
       payload[item] = formData[item].value
     }
-    console.log(payload)
     doLogIn(payload)
   }
 }

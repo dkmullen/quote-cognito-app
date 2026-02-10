@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { retrieve } from '@/services/apiService'
+import { retrieve, deleteItem } from '@/services/apiService'
 import { useRouter } from 'vue-router'
 import TableView from '@/components/TableView.vue'
 
@@ -38,8 +38,12 @@ async function editItem(item) {
   router.push({ name: 'edit', params: { id: item.id } })
 }
 
-function deleteItem(item) {
-  console.log(item)
+async function doDelete(item) {
+  try {
+    const res = await deleteItem(item.id)
+  } catch(err) {
+    console.error(err)
+  }
 }
 
 </script>
@@ -52,6 +56,6 @@ function deleteItem(item) {
     :totalItems="totalItems"
     :sort-by="[{ key: 'id', order: 'asc' }]"
     @edit="editItem"
-    @delete="deleteItem"
+    @delete="doDelete"
   />
 </template>

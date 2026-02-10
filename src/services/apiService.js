@@ -15,7 +15,6 @@ export async function post(payload) {
         Authorization: 'Bearer ' + token
       }
     })
-    console.log('response', response)
     if (!response.ok) {
       throw new Error('Network response was not ok')
     }
@@ -58,30 +57,31 @@ export async function retrieve(id = null) {
 }
 
 export async function deleteItem(id) {
-  // const store = useAppStore()
-  // const path = id || id === 0 ? `/admin?id=${id}` : '/admin'
-  // store.setLoading(true)
-  // try {
-  //   const response = await fetch(apiUrl + path, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //   if (!response.ok) {
-  //     throw new Error('Network response was not ok')
-  //   }
-  //   return await response.json()
-  // } catch (error) {
-  //   console.error('Error:', error)
-  //   const message = {
-  //     type: 'error',
-  //     text: 'Unable to retrieve data'
-  //   }
-  //   return message
-  // } finally {
-  //   store.setLoading(false)
-  // }
+  const store = useAppStore()
+  store.setLoading(true)
+  const token = await getIdToken()
+  try {
+    const response = await fetch(`${apiUrl}/admin?id=${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    return await response.json()
+  } catch (error) {
+    console.error('Error:', error)
+    const message = {
+      type: 'error',
+      text: 'Unable to retrieve data'
+    }
+    return message
+  } finally {
+    store.setLoading(false)
+  }
 }
 
 export async function postCarItem(payload) {
@@ -96,7 +96,6 @@ export async function postCarItem(payload) {
         'x-api-key': import.meta.env.VITE_APP_CARS_API_KEY
       }
     })
-    console.log('response', response)
     if (!response.ok) {
       throw new Error('Network response was not ok')
     }
@@ -112,7 +111,6 @@ export async function postCarItem(payload) {
 }
 
 export async function getArticle() {
-  console.log('check')
   const path = `https://39wdm3yvlb.execute-api.us-east-1.amazonaws.com/dev/articles?id=1`
   try {
     const response = await fetch(path, {
