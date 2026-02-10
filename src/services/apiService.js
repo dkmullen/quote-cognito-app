@@ -1,3 +1,4 @@
+import { useAppStore } from '@/stores'
 const apiUrl = import.meta.env.VITE_APP_API_URL
 const carsUrl = import.meta.env.VITE_APP_CARS_URL
 
@@ -30,7 +31,9 @@ export async function post(payload) {
 }
 
 export async function retrieve(id = null) {
+  const store = useAppStore()
   const path = id || id === 0 ? `/admin?id=${id}` : '/admin'
+  store.setLoading(true)
   try {
     const response = await fetch(apiUrl + path, {
       method: 'GET',
@@ -49,7 +52,36 @@ export async function retrieve(id = null) {
       text: 'Unable to retrieve data'
     }
     return message
+  } finally {
+    store.setLoading(false)
   }
+}
+
+export async function deleteItem(id) {
+  // const store = useAppStore()
+  // const path = id || id === 0 ? `/admin?id=${id}` : '/admin'
+  // store.setLoading(true)
+  // try {
+  //   const response = await fetch(apiUrl + path, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //   if (!response.ok) {
+  //     throw new Error('Network response was not ok')
+  //   }
+  //   return await response.json()
+  // } catch (error) {
+  //   console.error('Error:', error)
+  //   const message = {
+  //     type: 'error',
+  //     text: 'Unable to retrieve data'
+  //   }
+  //   return message
+  // } finally {
+  //   store.setLoading(false)
+  // }
 }
 
 export async function postCarItem(payload) {

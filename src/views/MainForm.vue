@@ -1,12 +1,14 @@
 <script setup>
-import { ref } from 'vue'
-import { post, getArticle } from '@/services/apiService'
+import { ref, onMounted } from 'vue'
+import { post, getArticle, retrieve } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
+import { useRoute } from 'vue-router'
 import QuoteDisplay from '@/components/QuoteDisplay.vue'
 // import { checkIdToken } from '@/services/authService'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 
 const store = useAppStore()
+const route = useRoute()
 
 let formData = {
   id: ref(null),
@@ -70,14 +72,41 @@ async function fetchArticle() {
   store.setLoading(true)
   try {
   const res = await getArticle()
-  console.log(res.Item.body)
   } catch (err) {
     console.log(err)
   } finally {
     store.setLoading(false)
   }
-
 }
+
+async function fetchQuote(id) {
+  try {
+    const res = await retrieve(id)
+    const body = res.Item
+    for (let i in formData) {
+      formData[i].value = body[i]
+    }
+    console.log(formData)
+    
+  } catch (err) {
+    console.error(err)
+  } 
+}
+
+async function deleteQuote(id) {
+  try {
+    const res = await deleteItem(id)
+    console.log(res)
+    console.log(formData)
+    
+  } catch (err) {
+    console.error(err)
+  } 
+}
+
+onMounted(() => {
+  if (route.params.id) fetchQuote(route.params.id)
+})
 </script>
 
 <template>
