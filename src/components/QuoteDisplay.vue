@@ -40,7 +40,7 @@ async function getQuote(id) {
 </script>
 
 <template>
-  <div class="centered-text mt-6" v-if="randomQuote" id="quote-box" color="secondary">
+  <div class="centered-text mt-6" v-if="randomQuote" id="quote-box">
     <p>{{ randomQuote.quote }}</p>
     <p>
       <b>{{ randomQuote.speaker }} {{ randomQuote.source ? `- ${randomQuote.source}` : '' }}</b>

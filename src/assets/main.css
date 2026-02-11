@@ -3,6 +3,7 @@
 :root {
   --primary: #1c4d9c;
   --secondary: #3a3b3b;
+  --success: #33804d;
 }
 #app {
   max-width: 1280px;

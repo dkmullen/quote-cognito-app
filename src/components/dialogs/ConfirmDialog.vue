@@ -11,7 +11,7 @@
         <v-card-text> {{ props.message }} </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn :text="props.cancelText" @click="isActive.value = false"></v-btn>
+          <v-btn :text="props.cancelText" @click="doCancel"></v-btn>
           <v-btn variant="flat" color="primary" @click="doAction(), (isActive.value = false)">{{
             props.actionText
           }}</v-btn>
@@ -33,12 +33,16 @@ const props = defineProps({
   width: { String, default: '600' },
   top: { String, default: '100px' }
 })
-const emit = defineEmits(['doAction'])
+const emit = defineEmits(['doAction', 'doCancel'])
 
 defineExpose({ setDialog })
 
 function doAction() {
   emit('doAction')
+}
+function doCancel() {
+  emit('doCancel')
+  dialog.value = false
 }
 function setDialog(bool) {
   dialog.value = bool

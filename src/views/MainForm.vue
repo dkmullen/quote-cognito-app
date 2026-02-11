@@ -27,6 +27,8 @@ function clearForm() {
   // checkIdToken()
 }
 
+const emit = defineEmits(['close'])
+
 async function sendForm() {
   if (formData.quote.value) {
     store.setLoading(true)
@@ -131,24 +133,21 @@ onMounted(() => {
     <div class="error-message">{{ errorMessage }}</div>
 
     <v-row dense>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="4">
         <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
       </v-col>
-      <v-col cols="12" md="6">
-        <v-btn variant="flat" block color="primary" type="submit" class="btn">Submit</v-btn>
+      <v-col cols="12" md="4">
+        <v-btn variant="flat" block type="button" class="btn" color="info" @click="emit('close')">Close</v-btn>
+      </v-col>
+      <v-col cols="12" md="4">
+        <v-btn variant="flat" block color="success" type="submit" class="btn">Submit</v-btn>
       </v-col>
     </v-row>
-    <v-row class="centered-text">
-      <v-col>
-        <v-chip @click="fetchArticle" variant="flat" color="success">Success</v-chip>
-        <v-chip variant="flat" color="secondary">Secondary</v-chip>
-        <v-chip variant="flat" color="warning">warning</v-chip>
-        <v-chip variant="flat" color="info">info</v-chip>
-        <v-chip variant="flat" color="error">error</v-chip>
-      </v-col>
-    </v-row>
+      <v-row>
+    <v-col><QuoteDisplay /></v-col>
+  </v-row>
   </form>
-  <QuoteDisplay />
+
   <ConfirmDialog ref="confirmD" :top="top" />
 </template>
 
