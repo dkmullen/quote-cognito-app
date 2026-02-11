@@ -35,6 +35,7 @@ watch(
       size="70"
       color="primary"
       large
+      style="z-index:10000"
     ></v-progress-circular>
   </div>
 </template>

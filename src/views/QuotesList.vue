@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { retrieve, deleteItem } from '@/services/apiService'
-import { useRouter } from 'vue-router'
 import TableView from '@/components/TableView.vue'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 import FormDialog from '@/components/dialogs/FormDialog.vue'
@@ -19,9 +18,7 @@ const loading = ref(false)
 const totalItems = ref(0)
 const confirmDialog = ref()
 const formDialog = ref()
-const tempItem = ref(null)
-
-const router = useRouter()
+const currentItem = ref(null)
 
 onMounted(() => {
   getAllQuotes()
@@ -40,17 +37,19 @@ async function getAllQuotes() {
   }
 }
 async function editItem(item) {
-  router.push({ name: 'edit', params: { id: item.id } })
+  // router.push({ name: 'edit', params: { id: item.id } })
+  currentItem.value = item
+  formDialog.value.dialog = true
 }
 
 function doConfirm(item) {
-  tempItem.value = item
+  currentItem.value = item
   confirmDialog.value.setDialog(true)
 }
 
 async function doDelete() {
   try {
-    const res = await deleteItem(tempItem.value.id)
+    const res = await deleteItem(currentItem.value.id)
     if (res.$metadata?.httpStatusCode === 200) getAllQuotes()
   } catch(err) {
     console.error(err)
@@ -78,6 +77,6 @@ async function doDelete() {
       />
     </v-col>
   </v-row>
-  <ConfirmDialog ref="confirmDialog" @doAction="doDelete" @doCancel="tempItem = null" />
-  <FormDialog ref="formDialog" />
+  <ConfirmDialog ref="confirmDialog" @doAction="doDelete" @doCancel="currentItem = null" />
+  <FormDialog ref="formDialog" :quote="currentItem" :totalItems="totalItems" @closing="currentItem = null" />
 </template>

@@ -2,13 +2,15 @@
 import { ref, onMounted } from 'vue'
 import { post, getArticle, retrieve } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
-import { useRoute } from 'vue-router'
 import QuoteDisplay from '@/components/QuoteDisplay.vue'
 // import { checkIdToken } from '@/services/authService'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 
 const store = useAppStore()
-const route = useRoute()
+const props = defineProps({
+  quote: Object, 
+  totalItems: Number
+})
 
 let formData = {
   id: ref(null),
@@ -88,8 +90,6 @@ async function fetchQuote(id) {
     for (let i in formData) {
       formData[i].value = body[i]
     }
-    console.log(formData)
-    
   } catch (err) {
     console.error(err)
   } 
@@ -107,13 +107,17 @@ async function deleteQuote(id) {
 }
 
 onMounted(() => {
-  if (route.params.id) fetchQuote(route.params.id)
+  if (props.quote) {
+    fetchQuote(props.quote.id)
+  } else {
+    formData.id.value = props.totalItems + 1
+  }
 })
 </script>
 
 <template>
   <form @submit.prevent="sendForm">
-    <h1>Submit a Quotation</h1>
+    <h1>{{ props.quote ? 'Edit' : 'Submit a' }} Quotation</h1>
     <div>
       <v-textarea
         name="quote"
@@ -128,7 +132,7 @@ onMounted(() => {
     <div>
       <v-text-field type="text" id="speaker" v-model="formData.speaker.value" label="Speaker" />
       <v-text-field type="text" id="source" v-model="formData.source.value" label="Source" />
-      <v-text-field type="text" id="id" v-model="formData.id.value" label="Id" />
+      <v-text-field type="text" id="id" v-model="formData.id.value" label="Id" readonly />
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
@@ -146,9 +150,10 @@ onMounted(() => {
       <v-row>
     <v-col><QuoteDisplay /></v-col>
   </v-row>
-  </form>
-
   <ConfirmDialog ref="confirmD" :top="top" />
+
+</form>
+
 </template>
 
 <style>

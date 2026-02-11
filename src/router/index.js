@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getUser } from '@/services/authService.js'
-const MainForm = () => import('@/views/MainForm.vue')
+const HomeView = () => import('@/views/HomeView.vue')
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', name: 'home', component: MainForm },
-    { path: '/:id', name: 'edit', component: MainForm },
+    { path: '/', name: 'home', component: HomeView },
     { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
     { path: '/quotes', name: 'quotes', component: () => import('@/views/QuotesList.vue') },
     { path: '/cars', name: 'cars', component: () => import('@/views/CarForm.vue') }

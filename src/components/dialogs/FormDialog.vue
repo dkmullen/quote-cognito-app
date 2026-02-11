@@ -1,11 +1,19 @@
 <script setup>
 import { ref } from 'vue'
-import MainForm from '@/views/MainForm.vue'
+import QuoteForm from '../QuoteForm.vue'
 
 const dialog = ref(false)
 const props = defineProps({
-  width: { String, default: '600' },
+  width: { type: String, default: '600' },
+  quote: { type: Object, default: null},
+  totalItems: { type: Number, default: 0 }
 })
+
+const emit = defineEmits(['closing'])
+function doClose() {
+  emit('closing')
+  dialog.value = false
+}
 
 defineExpose({ dialog })
 
@@ -16,11 +24,13 @@ defineExpose({ dialog })
     :width="props.width"
     v-model="dialog"
     style="align-items: unset"
+    persistent
   >
     <template v-slot:default="{ isActive }">
       <v-card id="dialog-card">
         <v-card-text>
-            <MainForm @close="dialog = false" />
+          {{ totalItems }}
+            <QuoteForm @close="doClose" :quote="quote" :totalItems="totalItems" />
         </v-card-text>
       </v-card>
     </template>
