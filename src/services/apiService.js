@@ -110,6 +110,37 @@ export async function postCarItem(payload) {
   }
 }
 
+export async function retrieveCarItems(id = null) {
+  const token = await getIdToken()
+  const store = useAppStore()
+  store.setLoading(true)
+  const path = id || id === 0 ? `${carsUrl}?id=${id}` : carsUrl
+
+  try {
+    const response = await fetch(path, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+        'x-api-key': import.meta.env.VITE_APP_CARS_API_KEY
+      }
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    return await response.json()
+  } catch (error) {
+    console.error('Error:', error)
+    const message = {
+      type: 'error',
+      text: 'Unable to retrieve data'
+    }
+    return message
+  } finally {
+    store.setLoading(false)
+  }
+}
+
 export async function getArticle() {
   const path = `https://39wdm3yvlb.execute-api.us-east-1.amazonaws.com/dev/articles?id=1`
   try {

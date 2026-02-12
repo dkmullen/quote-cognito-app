@@ -1,10 +1,9 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { postCarItem, retrieve } from '@/services/apiService'
+import { postCarItem, retrieveCarItems } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
 import { useRouter } from 'vue-router'
 import BaseInput from '@/components/BaseComponents/BaseInput.vue'
-import QuoteDisplay from '@/components/QuoteDisplay.vue'
 
 // import { checkIdToken } from '@/services/authService'
 
@@ -12,9 +11,9 @@ const store = useAppStore()
 const router = useRouter()
 
 onMounted(() => {
-  getQuote(0)
+  getCar(0)
   if (router.currentRoute.value.params.id) {
-    getQuote(router.currentRoute.value.params.id)
+    getCar(router.currentRoute.value.params.id)
   }
 })
 
@@ -45,14 +44,12 @@ function clearForm() {
   // checkIdToken()
 }
 
-async function getQuote(id) {
+async function getCar(id) {
   store.setLoading(true)
   try {
-    const res = await retrieve(id)
+    const res = await retrieveCarItems(id)
     if (res && res.type === 'error') {
       errorMessage.value = res.text
-    } else if (id === 0) {
-      randomQuote.value = res.Item
     } else {
       for (let item in formData) {
         formData[item].value = res.Item[item]
@@ -117,7 +114,6 @@ async function sendForm() {
       </v-col>
     </v-row>
   </form>
-  <QuoteDisplay />
 </template>
 
 <style>
@@ -125,13 +121,5 @@ form {
   width: 100%;
   max-width: 500px;
   margin: auto;
-}
-#quote-box {
-  max-width: 700px;
-  margin: auto;
-  background: var(--primary);
-  padding: 8px;
-  border-radius: 8px;
-  color: white;
 }
 </style>

@@ -1,11 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 import QuoteForm from '../QuoteForm.vue'
+import CarForm from '../CarForm.vue'
 
 const dialog = ref(false)
 const props = defineProps({
+  formName: { type: String, default: 'quotes' },
   width: { type: String, default: '600' },
   quote: { type: Object, default: null},
+  car: { type: Object, default: null},
   totalItems: { type: Number, default: 0 }
 })
 
@@ -29,8 +32,8 @@ defineExpose({ dialog })
     <template v-slot:default="{ isActive }">
       <v-card id="dialog-card">
         <v-card-text>
-          {{ totalItems }}
-            <QuoteForm @close="doClose" :quote="quote" :totalItems="totalItems" />
+            <QuoteForm v-if="formName === 'quotes'" @close="doClose" :quote="quote" :totalItems="totalItems" />
+            <CarForm v-if="formName === 'cars'" @close="doClose" :car="car" :totalItems="totalItems" />
         </v-card-text>
       </v-card>
     </template>
