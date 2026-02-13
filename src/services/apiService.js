@@ -114,7 +114,7 @@ export async function retrieveCarItems(id = null) {
   const token = await getIdToken()
   const store = useAppStore()
   store.setLoading(true)
-  const path = id || id === 0 ? `${carsUrl}?id=${id}` : carsUrl
+  const path = id || id === 0 ? `${carsUrl}?id=${id.timestamp}&name=${id.name}` : carsUrl
 
   try {
     const response = await fetch(path, {

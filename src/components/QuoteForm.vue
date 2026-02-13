@@ -58,7 +58,7 @@ async function sendForm() {
 }
 function doQb(qb) {
   top.value = `${getOffset(qb).top}px`
-  console.log(top.value)
+  // console.log(top.value)
   confirmD.value.setDialog(true)
 }
 function getOffset(id) {

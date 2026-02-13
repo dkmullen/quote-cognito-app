@@ -1,29 +1,31 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { postCarItem, retrieveCarItems } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
-import { useRouter } from 'vue-router'
 import BaseInput from '@/components/BaseComponents/BaseInput.vue'
 
 // import { checkIdToken } from '@/services/authService'
 
 const store = useAppStore()
-const router = useRouter()
+const props = defineProps({
+  car: Object, 
+  totalItems: Number
+})
 
 onMounted(() => {
-  getCar(0)
-  if (router.currentRoute.value.params.id) {
-    getCar(router.currentRoute.value.params.id)
+  if (props.car) {
+    getCar()
   }
 })
-
-const formData = reactive({
-  name: null,
-  comments: null,
-  date: null,
-  item: null,
-  mileage: null
-})
+const emit = defineEmits(['close'])
+const formData = {
+  name: ref(null),
+  comments: ref(null),
+  date: ref(null),
+  item: ref(null),
+  mileage: ref(null),
+  timestamp: ref(null)
+}
 
 const formObj = [
   { name: 'name', label: 'Car', model: 'name', inputType: 'select', items: ['Civic', 'Element'] },
@@ -33,27 +35,27 @@ const formObj = [
   { name: 'comments', label: 'Comments', model: 'comments', inputType: 'textarea', rows: 4 }
 ]
 
-const randomQuote = ref(null)
 let errorMessage = ref(null)
 
 function clearForm() {
   for (let item in formData) {
-    formData[item] = null
+    formData[item].value = null
   }
-  errorMessage.value = null
+  errorMessage.value = ''
   // checkIdToken()
 }
 
-async function getCar(id) {
+async function getCar() {
   store.setLoading(true)
   try {
-    const res = await retrieveCarItems(id)
+    const res = await retrieveCarItems({ timestamp: props.car.timestamp, name: props.car.name })
     if (res && res.type === 'error') {
       errorMessage.value = res.text
     } else {
-      for (let item in formData) {
-        formData[item].value = res.Item[item]
-      }
+    const body = res.Item
+    for (let i in formData) {
+      formData[i].value = body[i]
+    }
     }
   } catch (error) {
     errorMessage.value = error.message
@@ -68,7 +70,7 @@ async function sendForm() {
     store.setLoading(true)
     let payload = {}
     for (let item in formData) {
-      payload[item] = formData[item]
+      payload[item] = formData[item].value
     }
     try {
       const res = await postCarItem(payload)
@@ -100,18 +102,23 @@ async function sendForm() {
         :label="item.label"
         :items="item.items"
         :rows="item.rows"
-        v-model="formData[item.model]"
+        v-model="formData[item.model].value"
       />
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
     <v-row dense>
-      <v-col cols="12" md="6">
+    <v-row dense>
+      <v-col cols="12" md="4">
         <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
       </v-col>
-      <v-col cols="12" md="6">
-        <v-btn variant="flat" block color="primary" type="submit" class="btn">Submit</v-btn>
+      <v-col cols="12" md="4">
+        <v-btn variant="flat" block type="button" class="btn" color="info" @click="emit('close')">Close</v-btn>
       </v-col>
+      <v-col cols="12" md="4">
+        <v-btn variant="flat" block color="success" type="submit" class="btn">Submit</v-btn>
+      </v-col>
+    </v-row>
     </v-row>
   </form>
 </template>
