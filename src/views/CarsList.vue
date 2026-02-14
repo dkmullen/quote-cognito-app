@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { retrieveCarItems, deleteItem } from '@/services/apiService'
+import { retrieve, deleteItem } from '@/services/apiService'
 import TableView from '@/components/TableView.vue'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 import FormDialog from '@/components/dialogs/FormDialog.vue'
@@ -20,6 +20,7 @@ const totalItems = ref(0)
 const confirmDialog = ref()
 const formDialog = ref()
 const currentItem = ref(null)
+const path = '/cars'
 
 onMounted(() => {
   getAll()
@@ -28,7 +29,7 @@ onMounted(() => {
 async function getAll() {
   loading.value = true
   try {
-    const res = await retrieveCarItems()
+    const res = await retrieve({ path })
     console.log(res)
     items.value = res.Items
     totalItems.value = res.Count
@@ -49,13 +50,13 @@ function doConfirm(item) {
 }
 
 async function doDelete() {
-  console.log('delete')
-  // try {
-  //   const res = await deleteItem(currentItem.value.id)
-  //   if (res.$metadata?.httpStatusCode === 200) getAllQuotes()
-  // } catch(err) {
-  //   console.error(err)
-  // }
+  console.log(currentItem.value)
+  try {
+    const res = await deleteItem({ path, id: currentItem.value.timestamp, name: currentItem.value.name })
+    if (res.$metadata?.httpStatusCode === 200) getAll()
+  } catch(err) {
+    console.error(err)
+  }
 }
 
 </script>

@@ -19,7 +19,7 @@ const store = useAppStore()
 async function getQuote(id) {
   store.setLoading(true)
   try {
-    const res = await retrieve(id)
+    const res = await retrieve({ path: 'quotes', id})
     if (res && res.type === 'error') {
       errorMessage.value = res.text
     } else if (id === 0) {

@@ -19,6 +19,7 @@ const totalItems = ref(0)
 const confirmDialog = ref()
 const formDialog = ref()
 const currentItem = ref(null)
+const path = '/quotes'
 
 onMounted(() => {
   getAllQuotes()
@@ -27,7 +28,7 @@ onMounted(() => {
 async function getAllQuotes() {
   loading.value = true
   try {
-    const res = await retrieve()
+    const res = await retrieve({ path })
     items.value = res.Items
     totalItems.value = res.Count
   } catch (err) {
@@ -37,7 +38,6 @@ async function getAllQuotes() {
   }
 }
 async function editItem(item) {
-  // router.push({ name: 'edit', params: { id: item.id } })
   currentItem.value = item
   formDialog.value.dialog = true
 }
@@ -49,7 +49,7 @@ function doConfirm(item) {
 
 async function doDelete() {
   try {
-    const res = await deleteItem(currentItem.value.id)
+    const res = await deleteItem({ path, id: currentItem.value.id })
     if (res.$metadata?.httpStatusCode === 200) getAllQuotes()
   } catch(err) {
     console.error(err)

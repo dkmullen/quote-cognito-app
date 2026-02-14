@@ -1,12 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { post, getArticle, retrieve } from '@/services/apiService'
+import { post, retrieve } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
-import QuoteDisplay from '@/components/QuoteDisplay.vue'
 // import { checkIdToken } from '@/services/authService'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 
 const store = useAppStore()
+const path = '/quotes'
 const props = defineProps({
   quote: Object, 
   totalItems: Number
@@ -40,7 +40,7 @@ async function sendForm() {
     }
     payload.id = parseInt(payload.id)
     try {
-      const res = await post(payload)
+      const res = await post({ path, payload })
       if (res && res.type === 'error') {
         errorMessage.value = res.text
         store.setLoading(false)
@@ -56,6 +56,27 @@ async function sendForm() {
     errorMessage.value = 'You forgot the quote'
   }
 }
+
+async function fetchQuote(id) {
+  try {
+    const res = await retrieve({ path, id })
+    const body = res.Item
+    for (let i in formData) {
+      formData[i].value = body[i]
+    }
+  } catch (err) {
+    console.error(err)
+  } 
+}
+
+onMounted(() => {
+  if (props.quote) {
+    fetchQuote(props.quote.id)
+  } else {
+    formData.id.value = props.totalItems + 1
+  }
+})
+
 function doQb(qb) {
   top.value = `${getOffset(qb).top}px`
   // console.log(top.value)
@@ -82,37 +103,6 @@ async function fetchArticle() {
     store.setLoading(false)
   }
 }
-
-async function fetchQuote(id) {
-  try {
-    const res = await retrieve(id)
-    const body = res.Item
-    for (let i in formData) {
-      formData[i].value = body[i]
-    }
-  } catch (err) {
-    console.error(err)
-  } 
-}
-
-async function deleteQuote(id) {
-  try {
-    const res = await deleteItem(id)
-    console.log(res)
-    console.log(formData)
-    
-  } catch (err) {
-    console.error(err)
-  } 
-}
-
-onMounted(() => {
-  if (props.quote) {
-    fetchQuote(props.quote.id)
-  } else {
-    formData.id.value = props.totalItems + 1
-  }
-})
 </script>
 
 <template>
@@ -148,7 +138,6 @@ onMounted(() => {
       </v-col>
     </v-row>
       <v-row>
-    <v-col><QuoteDisplay /></v-col>
   </v-row>
   <ConfirmDialog ref="confirmD" :top="top" />
 

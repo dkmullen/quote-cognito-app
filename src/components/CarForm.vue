@@ -1,12 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { postCarItem, retrieveCarItems } from '@/services/apiService'
+import { post, retrieve } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
 import BaseInput from '@/components/BaseComponents/BaseInput.vue'
 
 // import { checkIdToken } from '@/services/authService'
 
 const store = useAppStore()
+const path = '/cars'
 const props = defineProps({
   car: Object, 
   totalItems: Number
@@ -46,9 +47,8 @@ function clearForm() {
 }
 
 async function getCar() {
-  store.setLoading(true)
   try {
-    const res = await retrieveCarItems({ timestamp: props.car.timestamp, name: props.car.name })
+    const res = await retrieve({ path, id: props.car.timestamp, name: props.car.name })
     if (res && res.type === 'error') {
       errorMessage.value = res.text
     } else {
@@ -59,31 +59,25 @@ async function getCar() {
     }
   } catch (error) {
     errorMessage.value = error.message
-    store.setLoading(false)
-  } finally {
-    store.setLoading(false)
-  }
+  } 
 }
 
 async function sendForm() {
   if (formData.name) {
-    store.setLoading(true)
     let payload = {}
     for (let item in formData) {
       payload[item] = formData[item].value
     }
+    console.log(path, payload)
     try {
-      const res = await postCarItem(payload)
+      const res = await post({ path, payload })
       if (res && res.type === 'error') {
         errorMessage.value = res.text
-        store.setLoading(false)
       } else {
-        store.setLoading(false)
         clearForm()
       }
     } catch (error) {
       errorMessage.value = error.message
-      store.setLoading(false)
     }
   } else {
     errorMessage.value = 'You forgot the name'
