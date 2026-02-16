@@ -97,7 +97,6 @@ export async function getIdToken() {
 }
 
 function tryAgain() {
-  console.log('Trying again')
   setTimeout(() => {
     return getIdToken()
   }, 1000)

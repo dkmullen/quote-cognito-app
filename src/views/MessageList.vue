@@ -8,9 +8,8 @@ import FormDialog from '@/components/dialogs/FormDialog.vue'
 const headers = [
   { title: 'Date', key: 'date' },
   { title: 'Name', key: 'name' },
-  { title: 'Item', key: 'item' },
-  { title: 'Mileage', key: 'mileage' },
-  { title: 'Comments', key: 'comments' },
+  { title: 'Email', key: 'email' },
+  { title: 'Message', key: 'message' },
   { title: 'Actions', key: 'actions', sortable: false, width: 100, align: 'end' }
 ]
 
@@ -20,22 +19,22 @@ const totalItems = ref(0)
 const confirmDialog = ref()
 const formDialog = ref()
 const currentItem = ref(null)
-const path = '/cars'
+const path = '/messages'
 
 onMounted(() => {
   getAll()
 })
 
 async function getAll() {
-  loading.value = true
   try {
     const res = await retrieve({ path })
+    res.Items.forEach((i) => {
+      i.date = new Date(i.timestamp).toLocaleDateString()
+    })
     items.value = res.Items
     totalItems.value = res.Count
   } catch (err) {
     console.error(err)
-  } finally {
-    loading.value = false
   }
 }
 async function editItem(item) {

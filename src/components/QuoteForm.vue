@@ -8,7 +8,7 @@ import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 const store = useAppStore()
 const path = '/quotes'
 const props = defineProps({
-  quote: Object, 
+  quote: Object,
   totalItems: Number
 })
 
@@ -66,7 +66,7 @@ async function fetchQuote(id) {
     }
   } catch (err) {
     console.error(err)
-  } 
+  }
 }
 
 onMounted(() => {
@@ -79,7 +79,6 @@ onMounted(() => {
 
 function doQb(qb) {
   top.value = `${getOffset(qb).top}px`
-  // console.log(top.value)
   confirmD.value.setDialog(true)
 }
 function getOffset(id) {
@@ -96,9 +95,9 @@ const confirmD = ref(null)
 async function fetchArticle() {
   store.setLoading(true)
   try {
-  const res = await getArticle()
+    const res = await getArticle()
   } catch (err) {
-    console.log(err)
+    console.error(err)
   } finally {
     store.setLoading(false)
   }
@@ -131,18 +130,17 @@ async function fetchArticle() {
         <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
       </v-col>
       <v-col cols="12" md="4">
-        <v-btn variant="flat" block type="button" class="btn" color="info" @click="emit('close')">Close</v-btn>
+        <v-btn variant="flat" block type="button" class="btn" color="info" @click="emit('close')"
+          >Close</v-btn
+        >
       </v-col>
       <v-col cols="12" md="4">
         <v-btn variant="flat" block color="success" type="submit" class="btn">Submit</v-btn>
       </v-col>
     </v-row>
-      <v-row>
-  </v-row>
-  <ConfirmDialog ref="confirmD" :top="top" />
-
-</form>
-
+    <v-row> </v-row>
+    <ConfirmDialog ref="confirmD" :top="top" />
+  </form>
 </template>
 
 <style>

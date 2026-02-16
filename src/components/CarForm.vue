@@ -9,7 +9,7 @@ import BaseInput from '@/components/BaseComponents/BaseInput.vue'
 const store = useAppStore()
 const path = '/cars'
 const props = defineProps({
-  car: Object, 
+  car: Object,
   totalItems: Number
 })
 
@@ -52,14 +52,14 @@ async function getCar() {
     if (res && res.type === 'error') {
       errorMessage.value = res.text
     } else {
-    const body = res.Item
-    for (let i in formData) {
-      formData[i].value = body[i]
-    }
+      const body = res.Item
+      for (let i in formData) {
+        formData[i].value = body[i]
+      }
     }
   } catch (error) {
     errorMessage.value = error.message
-  } 
+  }
 }
 
 async function sendForm() {
@@ -68,7 +68,6 @@ async function sendForm() {
     for (let item in formData) {
       payload[item] = formData[item].value
     }
-    console.log(path, payload)
     try {
       const res = await post({ path, payload })
       if (res && res.type === 'error') {
@@ -102,17 +101,19 @@ async function sendForm() {
     <div class="error-message">{{ errorMessage }}</div>
 
     <v-row dense>
-    <v-row dense>
-      <v-col cols="12" md="4">
-        <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
-      </v-col>
-      <v-col cols="12" md="4">
-        <v-btn variant="flat" block type="button" class="btn" color="info" @click="emit('close')">Close</v-btn>
-      </v-col>
-      <v-col cols="12" md="4">
-        <v-btn variant="flat" block color="success" type="submit" class="btn">Submit</v-btn>
-      </v-col>
-    </v-row>
+      <v-row dense>
+        <v-col cols="12" md="4">
+          <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-btn variant="flat" block type="button" class="btn" color="info" @click="emit('close')"
+            >Close</v-btn
+          >
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-btn variant="flat" block color="success" type="submit" class="btn">Submit</v-btn>
+        </v-col>
+      </v-row>
     </v-row>
   </form>
 </template>

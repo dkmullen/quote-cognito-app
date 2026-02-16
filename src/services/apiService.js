@@ -4,7 +4,6 @@ const apiUrl = import.meta.env.VITE_APP_API_URL
 import { getIdToken } from './authService'
 
 export async function post(params) {
-  console.log(params)
   const { path, payload } = params
   const token = await getIdToken()
   const store = useAppStore()
@@ -42,6 +41,7 @@ export async function retrieve(params) {
       pathName = id || id === 0 ? `${path}?id=${id}` : path
       break
     case '/cars':
+    case '/messages':
       pathName = id || id === 0 ? `${path}?id=${id}&name=${name}` : path
       break
   }
@@ -70,7 +70,7 @@ export async function retrieve(params) {
   }
 }
 
-export async function deleteItem(params) { 
+export async function deleteItem(params) {
   const { path, id, name } = params
   const store = useAppStore()
   store.setLoading(true)
@@ -100,7 +100,6 @@ export async function deleteItem(params) {
     store.setLoading(false)
   }
 }
-
 
 export async function getArticle() {
   const path = `https://39wdm3yvlb.execute-api.us-east-1.amazonaws.com/dev/articles?id=1`

@@ -38,6 +38,7 @@ const items = [
   { title: 'Home', icon: 'mdi-file-document-edit', route: 'home' },
   { title: 'Cars', icon: 'mdi-car', route: 'cars' },
   { title: 'Quotes', icon: 'mdi-file-document', route: 'quotes' },
+  { title: 'Messages', icon: 'mdi-email', route: 'messages' },
   { title: 'Sign Out', icon: 'mdi-logout', action: 'logout' }
 ]
 
