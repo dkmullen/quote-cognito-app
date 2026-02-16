@@ -8,7 +8,7 @@ const lightTheme = {
   dark: false,
   colors: {
     primary: '#1c4d9c',
-    secondary: '#298285',
+    secondary: '#848484',
     error: '#B00020',
     info: '#2196F3',
     success: '#33804d',
@@ -20,7 +20,7 @@ const darkTheme = {
   dark: true,
   colors: {
     primary: '#1c4d9c',
-    secondary: '#298285',
+    secondary: '#848484',
     error: '#B00020',
     info: '#2196F3',
     success: '#33804d',

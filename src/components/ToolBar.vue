@@ -37,7 +37,7 @@ const router = useRouter()
 const items = [
   { title: 'Home', icon: 'mdi-file-document-edit', route: 'home' },
   { title: 'Cars', icon: 'mdi-car', route: 'cars' },
-  { title: 'Quote List', icon: 'mdi-file-document', route: 'quotes' },
+  { title: 'Quotes', icon: 'mdi-file-document', route: 'quotes' },
   { title: 'Sign Out', icon: 'mdi-logout', action: 'logout' }
 ]
 
