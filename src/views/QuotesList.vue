@@ -51,24 +51,29 @@ async function doDelete() {
   try {
     const res = await deleteItem({ path, id: currentItem.value.id })
     if (res.$metadata?.httpStatusCode === 200) getAllQuotes()
-  } catch(err) {
+  } catch (err) {
     console.error(err)
   }
 }
-
 </script>
 
 <template>
-  <v-row justify="end">
-    <v-col cols="auto">
-      <v-btn density="compact" color="success" icon="mdi-plus" @click="formDialog.dialog = true"></v-btn>
+  <v-row>
+    <v-col cols="6"><h1 class="h3">Quotations</h1></v-col>
+    <v-col cols="6" align="end">
+      <v-btn
+        density="compact"
+        color="success"
+        icon="mdi-plus"
+        @click="formDialog.dialog = true"
+      ></v-btn>
     </v-col>
   </v-row>
   <v-row>
     <v-col>
-      <TableView 
-        :headers="headers" 
-        :items="items" 
+      <TableView
+        :headers="headers"
+        :items="items"
         :loading="loading"
         :totalItems="totalItems"
         :sort-by="[{ key: 'id', order: 'asc' }]"
@@ -78,5 +83,10 @@ async function doDelete() {
     </v-col>
   </v-row>
   <ConfirmDialog ref="confirmDialog" @doAction="doDelete" @doCancel="currentItem = null" />
-  <FormDialog ref="formDialog" :quote="currentItem" :totalItems="totalItems" @closing="currentItem = null" />
+  <FormDialog
+    ref="formDialog"
+    :quote="currentItem"
+    :totalItems="totalItems"
+    @closing="currentItem = null"
+  />
 </template>
