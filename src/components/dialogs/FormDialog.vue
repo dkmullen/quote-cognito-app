@@ -2,13 +2,15 @@
 import { ref } from 'vue'
 import QuoteForm from '../QuoteForm.vue'
 import CarForm from '../CarForm.vue'
+import MessageForm from '../MessageForm.vue'
 
 const dialog = ref(false)
 const props = defineProps({
   formName: { type: String, default: 'quotes' },
   width: { type: String, default: '600' },
-  quote: { type: Object, default: null},
-  car: { type: Object, default: null},
+  quote: { type: Object, default: null },
+  car: { type: Object, default: null },
+  message: { type: Object, default: null },
   totalItems: { type: Number, default: 0 }
 })
 
@@ -19,21 +21,26 @@ function doClose() {
 }
 
 defineExpose({ dialog })
-
 </script>
 
 <template>
-  <v-dialog
-    :width="props.width"
-    v-model="dialog"
-    style="align-items: unset"
-    persistent
-  >
+  <v-dialog :width="props.width" v-model="dialog" style="align-items: unset" persistent>
     <template v-slot:default="{ isActive }">
       <v-card id="dialog-card">
         <v-card-text>
-            <QuoteForm v-if="formName === 'quotes'" @close="doClose" :quote="quote" :totalItems="totalItems" />
-            <CarForm v-if="formName === 'cars'" @close="doClose" :car="car" :totalItems="totalItems" />
+          <QuoteForm
+            v-if="formName === 'quotes'"
+            @close="doClose"
+            :quote="quote"
+            :totalItems="totalItems"
+          />
+          <CarForm
+            v-if="formName === 'cars'"
+            @close="doClose"
+            :car="car"
+            :totalItems="totalItems"
+          />
+          <MessageForm v-if="formName === 'messages'" @close="doClose" :message="message" />
         </v-card-text>
       </v-card>
     </template>

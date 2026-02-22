@@ -34,6 +34,7 @@ export async function post(params) {
 }
 
 export async function retrieve(params) {
+  const token = await getIdToken()
   let pathName
   const { path, id, name } = params
   switch (path) {
@@ -51,7 +52,8 @@ export async function retrieve(params) {
     const response = await fetch(apiUrl + pathName, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token
       }
     })
     if (!response.ok) {
@@ -76,7 +78,7 @@ export async function deleteItem(params) {
   store.setLoading(true)
   const token = await getIdToken()
   let deleteUrl = `${apiUrl}${path}?id=${id}`
-  if (path.includes('cars')) deleteUrl += `&name=${name}`
+  if (path.includes('cars') || path.includes('messages')) deleteUrl += `&name=${name}`
   try {
     const response = await fetch(deleteUrl, {
       method: 'DELETE',

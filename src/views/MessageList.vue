@@ -37,7 +37,7 @@ async function getAll() {
     console.error(err)
   }
 }
-async function editItem(item) {
+async function viewMessage(item) {
   currentItem.value = item
   formDialog.value.dialog = true
 }
@@ -64,14 +64,7 @@ async function doDelete() {
 <template>
   <v-row>
     <v-col cols="6"><h1 class="h3">Messages</h1></v-col>
-    <v-col cols="6" align="end">
-      <v-btn
-        density="compact"
-        color="success"
-        icon="mdi-plus"
-        @click="formDialog.dialog = true"
-      ></v-btn>
-    </v-col>
+    <v-col cols="6" align="end"> </v-col>
   </v-row>
   <v-row>
     <v-col>
@@ -81,17 +74,17 @@ async function doDelete() {
         :loading="loading"
         :totalItems="totalItems"
         :sort-by="[{ key: 'id', order: 'asc' }]"
-        @edit="editItem"
         @delete="doConfirm"
+        @view="viewMessage"
+        :readOnly="true"
       />
     </v-col>
   </v-row>
   <ConfirmDialog ref="confirmDialog" @doAction="doDelete" @doCancel="currentItem = null" />
   <FormDialog
     ref="formDialog"
-    :car="currentItem"
-    :totalItems="totalItems"
+    :message="currentItem"
     @closing="currentItem = null"
-    :formName="'cars'"
+    :formName="'messages'"
   />
 </template>
