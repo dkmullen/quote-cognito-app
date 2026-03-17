@@ -52,3 +52,9 @@
   font-size: large;
   font-weight: bold;
 }
+.title-row {
+  min-height: 70px;
+  display: flex;
+  align-items: end;
+  padding: 10px;
+}

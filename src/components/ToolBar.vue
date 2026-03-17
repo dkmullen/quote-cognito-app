@@ -10,7 +10,7 @@
         </v-list>
       </v-menu>
     </v-btn>
-    <v-toolbar-title>Dashboard</v-toolbar-title>
+    <v-toolbar-title>{{ currentRoute }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon @click="toggleTheme">
       <v-icon v-if="!themeIsDark">mdi-weather-night</v-icon>
@@ -33,6 +33,7 @@ import { useRouter } from 'vue-router'
 
 const confirmDialog = ref()
 const router = useRouter()
+const currentRoute = ref('Home')
 
 const items = [
   { title: 'Home', icon: 'mdi-file-document-edit', route: 'home' },
@@ -61,6 +62,9 @@ function setDialog(bool) {
 }
 function doMenuAction(item) {
   if (item.route) {
+    console.log(item.route)
+    currentRoute.value = item.title
+    currentRoute.v
     router.push({ name: item.route })
   } else if (item.action === 'logout') {
     setDialog(true)

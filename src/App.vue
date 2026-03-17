@@ -18,26 +18,28 @@ watch(
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <ToolBar />
+  <v-app>
+    <header>
+      <div class="wrapper">
+        <ToolBar />
+      </div>
+    </header>
+    <div class="page-wrapper">
+      <router-view></router-view>
     </div>
-  </header>
-  <div class="page-wrapper">
-    <router-view></router-view>
-  </div>
-  <main></main>
-  <div v-if="overlay">
-    <v-overlay v-model="overlay" :persistent="true"></v-overlay>
-    <v-progress-circular
-      class="centered"
-      indeterminate="true"
-      size="70"
-      color="primary"
-      large
-      style="z-index:10000"
-    ></v-progress-circular>
-  </div>
+    <main></main>
+    <div v-if="overlay">
+      <v-overlay v-model="overlay" :persistent="true"></v-overlay>
+      <v-progress-circular
+        class="centered"
+        indeterminate="true"
+        size="70"
+        color="primary"
+        large
+        style="z-index: 10000"
+      ></v-progress-circular>
+    </div>
+  </v-app>
 </template>
 
 <style scoped>

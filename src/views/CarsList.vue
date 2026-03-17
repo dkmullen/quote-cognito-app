@@ -63,7 +63,7 @@ async function doDelete() {
 </script>
 
 <template>
-  <v-row>
+  <v-row class="title-row">
     <v-col cols="6"><h1 class="h3">Car Maintenance Records</h1></v-col>
     <v-col cols="6" align="end">
       <v-btn
