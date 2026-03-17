@@ -125,7 +125,7 @@ async function fetchArticle() {
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
-    <v-row dense>
+    <v-row density="comfortable">
       <v-col cols="12" md="4">
         <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
       </v-col>

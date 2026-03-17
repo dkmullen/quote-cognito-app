@@ -62,9 +62,7 @@ function setDialog(bool) {
 }
 function doMenuAction(item) {
   if (item.route) {
-    console.log(item.route)
     currentRoute.value = item.title
-    currentRoute.v
     router.push({ name: item.route })
   } else if (item.action === 'logout') {
     setDialog(true)
