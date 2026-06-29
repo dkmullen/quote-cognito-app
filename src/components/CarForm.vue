@@ -85,6 +85,8 @@ async function sendForm() {
 </script>
 
 <template>
+  <h1 class="centered">Car Maintenance Log</h1>
+
   <form @submit.prevent="sendForm">
     <h1>Submit a Maintenance Item</h1>
     <div v-for="item in formObj" :key="item.name">

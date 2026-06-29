@@ -58,30 +58,32 @@ async function doDelete() {
 </script>
 
 <template>
-  <v-row class="title-row">
-    <v-col cols="6"><h1 class="h3">Quotations</h1></v-col>
-    <v-col cols="6" align="end">
-      <v-btn
-        density="compact"
-        color="success"
-        icon="mdi-plus"
-        @click="formDialog.dialog = true"
-      ></v-btn>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <TableView
-        :headers="headers"
-        :items="items"
-        :loading="loading"
-        :totalItems="totalItems"
-        :sort-by="[{ key: 'id', order: 'asc' }]"
-        @edit="editItem"
-        @delete="doConfirm"
-      />
-    </v-col>
-  </v-row>
+  <main class="standard-page-container">
+    <v-row class="title-row">
+      <v-col cols="6"><h1 class="h3">Quotations</h1></v-col>
+      <v-col cols="6" align="end">
+        <v-btn
+          density="compact"
+          color="success"
+          icon="mdi-plus"
+          @click="formDialog.dialog = true"
+        ></v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <TableView
+          :headers="headers"
+          :items="items"
+          :loading="loading"
+          :totalItems="totalItems"
+          :sort-by="[{ key: 'id', order: 'asc' }]"
+          @edit="editItem"
+          @delete="doConfirm"
+        />
+      </v-col>
+    </v-row>
+  </main>
   <ConfirmDialog ref="confirmDialog" @doAction="doDelete" @doCancel="currentItem = null" />
   <FormDialog
     ref="formDialog"

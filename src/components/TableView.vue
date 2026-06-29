@@ -22,6 +22,7 @@ const emit = defineEmits(['edit', 'delete', 'view'])
     :loading="loading"
     must-sort
     :sort-by="sortBy"
+    striped="odd"
   >
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>

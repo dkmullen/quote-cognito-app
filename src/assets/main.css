@@ -1,14 +1,14 @@
 @import './base.css';
 
 :root {
-  --primary: #1c4d9c;
+  --primary: #304575;
   --secondary: #3a3b3b;
   --success: #33804d;
 }
 #app {
-  max-width: 1280px;
+  /* max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem; */
   font-weight: normal;
 }
 .centered {
@@ -41,11 +41,15 @@
 }
 .v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th,
 .v-data-table-footer {
-  background-color: var(--secondary) !important;
+  background-color: var(--primary) !important;
   color: white;
 }
 .v-data-table-footer {
   padding: 2px 8px !important;
+}
+.standard-page-container {
+  max-width: 1100px;
+  margin: 0 auto;
 }
 .h3 {
   margin: 0;
