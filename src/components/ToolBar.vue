@@ -60,7 +60,10 @@ function toggleTheme() {
   themeIsDark = !themeIsDark
 }
 
-let username = localStorage.getItem('currentUser')
+const id = import.meta.env.VITE_APP_CLIENT_ID
+const user = `CognitoIdentityServiceProvider.${id}.LastAuthUser`
+
+let username = localStorage.getItem(user) || 'Unknown User'
 
 const confirmMessage = 'Are you sure you want to sign out?'
 function doSignOut() {
