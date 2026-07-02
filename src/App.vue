@@ -18,7 +18,7 @@ watch(
 </script>
 
 <template>
-  <v-app>
+  <v-app class="bg-background">
     <header>
       <div class="wrapper">
         <ToolBar />

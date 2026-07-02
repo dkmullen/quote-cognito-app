@@ -28,7 +28,7 @@
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 import { signOut } from '@/services/authService'
 import { useTheme } from 'vuetify'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const confirmDialog = ref()
@@ -46,8 +46,17 @@ const items = [
 const theme = useTheme()
 let themeIsDark = theme.global.current.value.dark
 
+onMounted(() => {
+  const savedTheme = localStorage.getItem('dkm-dashboard-theme')
+  if (savedTheme) {
+    theme.global.name.value = savedTheme
+    themeIsDark = savedTheme === 'darkTheme'
+  }
+})
+
 function toggleTheme() {
   theme.global.name.value = theme.global.current.value.dark ? 'lightTheme' : 'darkTheme'
+  localStorage.setItem('dkm-dashboard-theme', theme.global.name.value)
   themeIsDark = !themeIsDark
 }
 

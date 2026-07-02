@@ -13,12 +13,12 @@ const emit = defineEmits(['edit', 'delete', 'view'])
 
 <template>
   <v-data-table
+    class="responsive-table"
     :headers="headers"
     fixed-header
     :items="items"
     item-key="source"
     items-per-page="100"
-    height="80vh"
     :loading="loading"
     must-sort
     :sort-by="sortBy"
@@ -34,3 +34,11 @@ const emit = defineEmits(['edit', 'delete', 'view'])
     </template>
   </v-data-table>
 </template>
+
+<style scoped>
+.responsive-table {
+  height: min(85vh, calc(100vh - 160px));
+  max-height: calc(100vh - 160px);
+  min-height: 320px;
+}
+</style>
