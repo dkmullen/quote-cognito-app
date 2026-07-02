@@ -11,7 +11,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@mdi/font": "^7.4.47",
+    "@mdi/js": "^7.4.47",
     "amazon-cognito-identity-js": "^6.3.16",
     "aws-amplify": "^6.15.8",
     "aws-sdk": "^2.1692.0",
