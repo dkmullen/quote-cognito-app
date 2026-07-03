@@ -27,6 +27,9 @@ const emit = defineEmits(['edit', 'delete', 'view'])
     <template v-slot:loading>
       <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
     </template>
+    <template #item.timestamp="{ value }">
+      {{ new Date(value).toLocaleDateString() }}
+    </template>
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon v-if="!readOnly" class="me-2" @click="emit('edit', item)"> mdi-pencil </v-icon>
       <v-icon v-if="readOnly" @click="emit('view', item)"> mdi-eye </v-icon>

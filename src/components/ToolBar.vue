@@ -49,15 +49,16 @@ let themeIsDark = theme.global.current.value.dark
 onMounted(() => {
   const savedTheme = localStorage.getItem('dkm-dashboard-theme')
   if (savedTheme) {
-    theme.global.name.value = savedTheme
+    theme.change(savedTheme)
     themeIsDark = savedTheme === 'darkTheme'
   }
 })
 
 function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? 'lightTheme' : 'darkTheme'
-  localStorage.setItem('dkm-dashboard-theme', theme.global.name.value)
-  themeIsDark = !themeIsDark
+  const nextTheme = theme.global.current.value.dark ? 'lightTheme' : 'darkTheme'
+  theme.change(nextTheme)
+  localStorage.setItem('dkm-dashboard-theme', nextTheme)
+  themeIsDark = nextTheme === 'darkTheme'
 }
 
 const id = import.meta.env.VITE_APP_CLIENT_ID

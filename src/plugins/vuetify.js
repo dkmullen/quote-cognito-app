@@ -12,8 +12,8 @@ const lightTheme = {
     info: '#2196F3',
     success: '#33804d',
     warning: '#FB8C00',
-    background: '#c2bcb8',
-    surface: '#E9E3DF'
+    background: '#d9d9d9',
+    surface: '#ffffff'
   }
 }
 

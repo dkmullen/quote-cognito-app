@@ -6,7 +6,7 @@ import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 import FormDialog from '@/components/dialogs/FormDialog.vue'
 
 const headers = [
-  { title: 'Date', key: 'date' },
+  { title: 'Date', key: 'timestamp' },
   { title: 'Name', key: 'name' },
   { title: 'Email', key: 'email' },
   { title: 'Message', key: 'message' },
@@ -28,9 +28,6 @@ onMounted(() => {
 async function getAll() {
   try {
     const res = await retrieve({ path })
-    res.Items.forEach((i) => {
-      i.date = new Date(i.timestamp).toLocaleDateString()
-    })
     items.value = res.Items
     totalItems.value = res.Count
   } catch (err) {
@@ -74,7 +71,7 @@ async function doDelete() {
           :items="items"
           :loading="loading"
           :totalItems="totalItems"
-          :sort-by="[{ key: 'id', order: 'asc' }]"
+          :sort-by="[{ key: 'timestamp', order: 'desc' }]"
           @delete="doConfirm"
           @view="viewMessage"
           :readOnly="true"
