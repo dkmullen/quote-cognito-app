@@ -10,34 +10,34 @@ export async function doLogIn(payload) {
   }
 }
 
-// export function signIn(payload) {
-//   const appStore = useAppStore()
-//   appStore.setLoading(true)
-//   const Username = payload.username
-//   var authenticationData = {
-//     Username,
-//     Password: payload.password
-//   }
-//   var authenticationDetails = new AuthenticationDetails(authenticationData)
-//   var userPool = getUserPool()
-//   var userData = {
-//     Username,
-//     Pool: userPool
-//   }
-//   var cognitoUser = new CognitoUser(userData)
+export function doSignIn(payload) {
+  const appStore = useAppStore()
+  appStore.setLoading(true)
+  const Username = payload.username
+  var authenticationData = {
+    Username,
+    Password: payload.password
+  }
+  var authenticationDetails = new AuthenticationDetails(authenticationData)
+  var userPool = getUserPool()
+  var userData = {
+    Username,
+    Pool: userPool
+  }
+  var cognitoUser = new CognitoUser(userData)
 
-//   cognitoUser.authenticateUser(authenticationDetails, {
-//     onSuccess: function (result) {
-//       localStorage.setItem('currentUser', cognitoUser.username)
-//       var idToken = result.getIdToken().getJwtToken()
-//       localStorage.setItem('cognitoIdToken', idToken)
-//       appStore.setLoading(false)
-//       router.push({ name: 'home' })
-//     },
+  cognitoUser.authenticateUser(authenticationDetails, {
+    onSuccess: function (result) {
+      localStorage.setItem('currentUser', cognitoUser.username)
+      var idToken = result.getIdToken().getJwtToken()
+      localStorage.setItem('cognitoIdToken', idToken)
+      appStore.setLoading(false)
+      router.push({ name: 'home' })
+    },
 
-//     onFailure: function (err) {
-//       appStore.setLoading(false)
-//       appStore.setLoginErrorMessage(err.message || JSON.stringify(err))
-//     }
-//   })
-// }
+    onFailure: function (err) {
+      appStore.setLoading(false)
+      appStore.setLoginErrorMessage(err.message || JSON.stringify(err))
+    }
+  })
+}
