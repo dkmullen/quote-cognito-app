@@ -1,4 +1,6 @@
 <script setup>
+import SettingsIcon from '@/components/icons/IconSettings.vue'
+
 const links = [
   {
     label: 'Gmail',
@@ -40,6 +42,7 @@ const links = [
         </v-col>
       </v-row>
     </v-container>
+    <!-- <SettingsIcon class="ml-4" size="36px" /> -->
   </div>
 </template>
 
