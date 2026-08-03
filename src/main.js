@@ -8,6 +8,7 @@ import router from './router'
 import vuetify from '@/plugins/vuetify'
 
 import { Amplify } from 'aws-amplify';
+import GlobalComponents from './globals'
 
 Amplify.configure({
   Auth: {
@@ -38,4 +39,4 @@ app.config.errorHandler = (err, instance, info) => {
   store.handleGlobalErrors(errorObject)
 }
 
-app.use(router).use(vuetify).use(pinia).mount('#app')
+app.use(router).use(vuetify).use(pinia).use(GlobalComponents).mount('#app')
