@@ -1,8 +1,5 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import BaseInput from '@/components/BaseComponents/BaseInput.vue'
-
-// import { checkIdToken } from '@/services/authService'
 
 const props = defineProps({
   message: Object

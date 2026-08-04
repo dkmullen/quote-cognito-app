@@ -12,7 +12,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn :text="props.cancelText" @click="doCancel"></v-btn>
-          <v-btn variant="flat" color="primary" @click="doAction(), (isActive.value = false)">{{
+          <v-btn variant="flat" color="primary" @click="(doAction(), (isActive.value = false))">{{
             props.actionText
           }}</v-btn>
         </v-card-actions>

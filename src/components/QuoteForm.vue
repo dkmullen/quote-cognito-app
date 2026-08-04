@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 import { post, retrieve } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
-// import { checkIdToken } from '@/services/authService'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 
 const store = useAppStore()

@@ -1,43 +1,41 @@
-import { signIn, signOut, getCurrentUser } from 'aws-amplify/auth'
+import { signIn, signOut, getCurrentUser, fetchAuthSession } from 'aws-amplify/auth'
+import { useAppStore } from '../stores/index.js'
+import router from '../router/index.js'
 
 export async function doLogIn(payload) {
-    const { username, password } = payload
+  const { username, password } = payload
+  const appStore = useAppStore()
+  appStore.setLoading(true)
   try {
-    const user = await signIn({ username, password })
-    console.log('Logged in:', user)
+    await signIn({ username, password })
+    appStore.setLoading(false)
+    router.push({ name: 'home' })
   } catch (err) {
-    console.error('Login failed:', err)
+    appStore.setLoading(false)
+    appStore.setLoginErrorMessage(err.message || JSON.stringify(err))
   }
 }
 
-export function doSignIn(payload) {
-  const appStore = useAppStore()
-  appStore.setLoading(true)
-  const Username = payload.username
-  var authenticationData = {
-    Username,
-    Password: payload.password
+export async function getUser() {
+  try {
+    const user = await getCurrentUser()
+    return user
+  } catch {
+    return null
   }
-  var authenticationDetails = new AuthenticationDetails(authenticationData)
-  var userPool = getUserPool()
-  var userData = {
-    Username,
-    Pool: userPool
+}
+
+export async function signOutUser() {
+  await signOut()
+  router.push({ name: 'login' })
+}
+
+export async function getIdToken() {
+  try {
+    const { tokens } = await fetchAuthSession()
+    return tokens?.idToken?.toString()
+  } catch (err) {
+    console.error('Error retrieving ID token:', err)
+    return null
   }
-  var cognitoUser = new CognitoUser(userData)
-
-  cognitoUser.authenticateUser(authenticationDetails, {
-    onSuccess: function (result) {
-      localStorage.setItem('currentUser', cognitoUser.username)
-      var idToken = result.getIdToken().getJwtToken()
-      localStorage.setItem('cognitoIdToken', idToken)
-      appStore.setLoading(false)
-      router.push({ name: 'home' })
-    },
-
-    onFailure: function (err) {
-      appStore.setLoading(false)
-      appStore.setLoginErrorMessage(err.message || JSON.stringify(err))
-    }
-  })
 }

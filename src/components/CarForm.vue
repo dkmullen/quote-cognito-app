@@ -2,11 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { post, retrieve } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
-import BaseInput from '@/components/BaseComponents/BaseInput.vue'
 
-// import { checkIdToken } from '@/services/authService'
-
-const store = useAppStore()
+useAppStore()
 const path = '/cars'
 const props = defineProps({
   car: Object,
@@ -43,7 +40,6 @@ function clearForm() {
     formData[item].value = null
   }
   errorMessage.value = ''
-  // checkIdToken()
 }
 
 async function getCar() {

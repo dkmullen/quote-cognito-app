@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getUser } from '@/services/authService.js'
+import { getUser } from '@/services/authAmplify.js'
 const HomeView = () => import('@/views/HomeView.vue')
 
 const router = createRouter({
@@ -14,7 +14,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  let validUser = getUser()
+  let validUser = await getUser()
   if (!validUser && to.name !== 'login') {
     return { name: 'login' }
   } else if (validUser && to.name === 'login') {

@@ -26,7 +26,7 @@
 
 <script setup>
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
-import { signOut } from '@/services/authService'
+import { signOutUser, getUser } from '@/services/authAmplify'
 import { useTheme } from 'vuetify'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -34,6 +34,7 @@ import { useRouter } from 'vue-router'
 const confirmDialog = ref()
 const router = useRouter()
 const currentRoute = ref('Home')
+let username = ref('Unknown User')
 
 const items = [
   { title: 'Home', icon: 'mdi-file-document-edit', route: 'home' },
@@ -46,11 +47,15 @@ const items = [
 const theme = useTheme()
 let themeIsDark = theme.global.current.value.dark
 
-onMounted(() => {
+onMounted(async () => {
   const savedTheme = localStorage.getItem('dkm-dashboard-theme')
   if (savedTheme) {
     theme.change(savedTheme)
     themeIsDark = savedTheme === 'darkTheme'
+  }
+  const user = await getUser()
+  if (user) {
+    username.value = user.username || 'Unknown User'
   }
 })
 
@@ -61,14 +66,9 @@ function toggleTheme() {
   themeIsDark = nextTheme === 'darkTheme'
 }
 
-const id = import.meta.env.VITE_APP_CLIENT_ID
-const user = `CognitoIdentityServiceProvider.${id}.LastAuthUser`
-
-let username = localStorage.getItem(user) || 'Unknown User'
-
 const confirmMessage = 'Are you sure you want to sign out?'
 function doSignOut() {
-  signOut()
+  signOutUser()
 }
 function setDialog(bool) {
   confirmDialog.value.setDialog(bool)

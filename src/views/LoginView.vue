@@ -41,7 +41,6 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-// import { signIn, getIdToken } from '@/services/authService'
 import { doLogIn } from '@/services/authAmplify'
 
 import { useAppStore } from '@/stores/index'
