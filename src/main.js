@@ -7,21 +7,22 @@ import App from './App.vue'
 import router from './router'
 import vuetify from '@/plugins/vuetify'
 
-import { Amplify } from 'aws-amplify';
+import { Amplify } from 'aws-amplify'
+import GlobalComponents from './globals'
 
 Amplify.configure({
   Auth: {
     Cognito: {
       region: 'us-east-2',
-      userPoolId: 'us-east-2_eXF69Q23M',
-      userPoolClientId: '70snluik5pf9jenb07lumlbtd9',
-      loginWith: { // This prevents the error
+      userPoolId: import.meta.env.VITE_APP_USERPOOL_ID,
+      userPoolClientId: import.meta.env.VITE_APP_CLIENT_ID,
+      loginWith: {
         username: true,
-        email: false,
-      },
-    },
+        email: false
+      }
+    }
   }
-});
+})
 
 const pinia = createPinia()
 
@@ -38,4 +39,4 @@ app.config.errorHandler = (err, instance, info) => {
   store.handleGlobalErrors(errorObject)
 }
 
-app.use(router).use(vuetify).use(pinia).mount('#app')
+app.use(router).use(vuetify).use(pinia).use(GlobalComponents).mount('#app')

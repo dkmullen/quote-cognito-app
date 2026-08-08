@@ -1,4 +1,6 @@
 <script setup>
+import SettingsIcon from '@/components/icons/IconSettings.vue'
+
 const links = [
   {
     label: 'Gmail',
@@ -29,17 +31,19 @@ const links = [
 ]
 </script>
 <template>
-  <div class="d-flex align-center justify-center"></div>
-  <v-container class="link-wrapper">
-    <v-row>
-      <v-col v-for="i in links" :index="i.label" cols="12" md="6">
-        <a :href="i.link">
-          <v-btn class="mr-4 mb-1" density="comfortable" color="primary" :icon="i.icon"></v-btn>
-          <span>{{ i.label }}</span>
-        </a>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div class="d-flex align-center justify-center pt-16">
+    <v-container class="link-wrapper">
+      <v-row>
+        <v-col v-for="i in links" :index="i.label" cols="12" md="6">
+          <a :href="i.link">
+            <v-btn class="mr-4 mb-4" density="default" color="primary" :icon="i.icon"></v-btn>
+            <span>{{ i.label }}</span>
+          </a>
+        </v-col>
+      </v-row>
+    </v-container>
+    <!-- <SettingsIcon class="ml-4" size="36px" /> -->
+  </div>
 </template>
 
 <style scoped>
@@ -49,6 +53,6 @@ const links = [
 a {
   font-size: x-large;
   text-decoration: none;
-  color: white;
+  color: var(--v-theme-on-surface);
 }
 </style>

@@ -1,8 +1,5 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import BaseInput from '@/components/BaseComponents/BaseInput.vue'
-
-// import { checkIdToken } from '@/services/authService'
 
 const props = defineProps({
   message: Object
@@ -58,8 +55,8 @@ function clearForm() {
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
-    <v-row dense>
-      <v-row dense>
+    <v-row density="comfortable">
+      <v-row density="comfortable">
         <v-col cols="12">
           <v-btn variant="flat" block type="button" class="btn" color="info" @click="emit('close')"
             >Close</v-btn

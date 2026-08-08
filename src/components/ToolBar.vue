@@ -10,7 +10,7 @@
         </v-list>
       </v-menu>
     </v-btn>
-    <v-toolbar-title>Dashboard</v-toolbar-title>
+    <v-toolbar-title>{{ currentRoute }}</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon @click="toggleTheme">
       <v-icon v-if="!themeIsDark">mdi-weather-night</v-icon>
@@ -26,13 +26,15 @@
 
 <script setup>
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
-import { signOut } from '@/services/authService'
+import { signOutUser, getUser } from '@/services/authAmplify'
 import { useTheme } from 'vuetify'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const confirmDialog = ref()
 const router = useRouter()
+const currentRoute = ref('Home')
+let username = ref('Unknown User')
 
 const items = [
   { title: 'Home', icon: 'mdi-file-document-edit', route: 'home' },
@@ -45,22 +47,35 @@ const items = [
 const theme = useTheme()
 let themeIsDark = theme.global.current.value.dark
 
-function toggleTheme() {
-  theme.global.name.value = theme.global.current.value.dark ? 'lightTheme' : 'darkTheme'
-  themeIsDark = !themeIsDark
-}
+onMounted(async () => {
+  const savedTheme = localStorage.getItem('dkm-dashboard-theme')
+  if (savedTheme) {
+    theme.change(savedTheme)
+    themeIsDark = savedTheme === 'darkTheme'
+  }
+  const user = await getUser()
+  if (user) {
+    username.value = user.username || 'Unknown User'
+  }
+})
 
-let username = localStorage.getItem('currentUser')
+function toggleTheme() {
+  const nextTheme = theme.global.current.value.dark ? 'lightTheme' : 'darkTheme'
+  theme.change(nextTheme)
+  localStorage.setItem('dkm-dashboard-theme', nextTheme)
+  themeIsDark = nextTheme === 'darkTheme'
+}
 
 const confirmMessage = 'Are you sure you want to sign out?'
 function doSignOut() {
-  signOut()
+  signOutUser()
 }
 function setDialog(bool) {
   confirmDialog.value.setDialog(bool)
 }
 function doMenuAction(item) {
   if (item.route) {
+    currentRoute.value = item.title
     router.push({ name: item.route })
   } else if (item.action === 'logout') {
     setDialog(true)

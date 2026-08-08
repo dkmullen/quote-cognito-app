@@ -6,7 +6,7 @@ import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 import FormDialog from '@/components/dialogs/FormDialog.vue'
 
 const headers = [
-  { title: 'Date', key: 'date' },
+  { title: 'Date', key: 'timestamp' },
   { title: 'Name', key: 'name' },
   { title: 'Email', key: 'email' },
   { title: 'Message', key: 'message' },
@@ -28,9 +28,6 @@ onMounted(() => {
 async function getAll() {
   try {
     const res = await retrieve({ path })
-    res.Items.forEach((i) => {
-      i.date = new Date(i.timestamp).toLocaleDateString()
-    })
     items.value = res.Items
     totalItems.value = res.Count
   } catch (err) {
@@ -62,24 +59,26 @@ async function doDelete() {
 </script>
 
 <template>
-  <v-row>
-    <v-col cols="6"><h1 class="h3">Messages</h1></v-col>
-    <v-col cols="6" align="end"> </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <TableView
-        :headers="headers"
-        :items="items"
-        :loading="loading"
-        :totalItems="totalItems"
-        :sort-by="[{ key: 'id', order: 'asc' }]"
-        @delete="doConfirm"
-        @view="viewMessage"
-        :readOnly="true"
-      />
-    </v-col>
-  </v-row>
+  <main class="standard-page-container">
+    <v-row class="title-row">
+      <v-col cols="6"><h1 class="h3">Messages</h1></v-col>
+      <v-col cols="6" align="end"> </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <TableView
+          :headers="headers"
+          :items="items"
+          :loading="loading"
+          :totalItems="totalItems"
+          :sort-by="[{ key: 'timestamp', order: 'desc' }]"
+          @delete="doConfirm"
+          @view="viewMessage"
+          :readOnly="true"
+        />
+      </v-col>
+    </v-row>
+  </main>
   <ConfirmDialog ref="confirmDialog" @doAction="doDelete" @doCancel="currentItem = null" />
   <FormDialog
     ref="formDialog"

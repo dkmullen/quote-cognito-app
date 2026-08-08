@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 import { post, retrieve } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
-// import { checkIdToken } from '@/services/authService'
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 
 const store = useAppStore()
@@ -125,7 +124,7 @@ async function fetchArticle() {
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
-    <v-row dense>
+    <v-row density="comfortable">
       <v-col cols="12" md="4">
         <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
       </v-col>

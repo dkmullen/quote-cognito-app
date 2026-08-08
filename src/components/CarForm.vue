@@ -2,11 +2,8 @@
 import { ref, onMounted } from 'vue'
 import { post, retrieve } from '@/services/apiService'
 import { useAppStore } from '@/stores/index'
-import BaseInput from '@/components/BaseComponents/BaseInput.vue'
 
-// import { checkIdToken } from '@/services/authService'
-
-const store = useAppStore()
+useAppStore()
 const path = '/cars'
 const props = defineProps({
   car: Object,
@@ -43,7 +40,6 @@ function clearForm() {
     formData[item].value = null
   }
   errorMessage.value = ''
-  // checkIdToken()
 }
 
 async function getCar() {
@@ -85,6 +81,8 @@ async function sendForm() {
 </script>
 
 <template>
+  <h1 class="centered">Car Maintenance Log</h1>
+
   <form @submit.prevent="sendForm">
     <h1>Submit a Maintenance Item</h1>
     <div v-for="item in formObj" :key="item.name">
@@ -100,8 +98,8 @@ async function sendForm() {
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 
-    <v-row dense>
-      <v-row dense>
+    <v-row density="comfortable">
+      <v-row density="comfortable">
         <v-col cols="12" md="4">
           <v-btn variant="outlined" block type="button" class="btn" @click="clearForm">Clear</v-btn>
         </v-col>

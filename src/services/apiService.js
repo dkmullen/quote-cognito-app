@@ -1,7 +1,7 @@
 import { useAppStore } from '@/stores'
 const apiUrl = import.meta.env.VITE_APP_API_URL
 
-import { getIdToken } from './authService'
+import { getIdToken } from './authAmplify'
 
 export async function post(params) {
   const { path, payload } = params
