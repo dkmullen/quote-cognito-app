@@ -7,7 +7,12 @@ export async function doLogIn(payload) {
   const appStore = useAppStore()
   appStore.setLoading(true)
   try {
-    await signIn({ username, password })
+    const res = await signIn({ username, password })
+    if (res.isSignedIn) {
+      getCurrentUser().then(user => {
+        appStore.setCurrentUser(user)
+      })
+    }
     appStore.setLoading(false)
     router.push({ name: 'home' })
   } catch (err) {
@@ -27,6 +32,8 @@ export async function getUser() {
 
 export async function signOutUser() {
   await signOut()
+  const appStore = useAppStore()
+  appStore.setCurrentUser(null)
   router.push({ name: 'login' })
 }
 

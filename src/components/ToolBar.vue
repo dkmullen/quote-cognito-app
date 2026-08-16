@@ -1,29 +1,3 @@
-<template>
-  <v-toolbar density="compact" color="primary">
-    <v-btn icon="mdi-open-in-new">
-      <v-icon icon="mdi-menu"></v-icon>
-      <v-menu activator="parent">
-        <v-list>
-          <v-list-item v-for="(item, index) in items" :key="index" :value="index">
-            <v-list-item-title @click="doMenuAction(item)">{{ item.title }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-btn>
-    <v-toolbar-title>{{ currentRoute }}</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-btn icon @click="toggleTheme">
-      <v-icon v-if="!themeIsDark">mdi-weather-night</v-icon>
-      <v-icon v-if="themeIsDark">mdi-weather-sunny</v-icon>
-    </v-btn>
-    Signed in as: {{ username }}
-    <v-btn icon @click="setDialog(true)">
-      <v-icon>mdi-logout</v-icon>
-    </v-btn>
-  </v-toolbar>
-  <ConfirmDialog :message="confirmMessage" @doAction="doSignOut" ref="confirmDialog" />
-</template>
-
 <script setup>
 import ConfirmDialog from '@/components/dialogs/ConfirmDialog.vue'
 import { signOutUser, getUser } from '@/services/authAmplify'
@@ -34,7 +8,7 @@ import { useRouter } from 'vue-router'
 const confirmDialog = ref()
 const router = useRouter()
 const currentRoute = ref('Home')
-let username = ref('Unknown User')
+const user = ref(null)
 
 const items = [
   { title: 'Home', icon: 'mdi-file-document-edit', route: 'home' },
@@ -53,10 +27,7 @@ onMounted(async () => {
     theme.change(savedTheme)
     themeIsDark = savedTheme === 'darkTheme'
   }
-  const user = await getUser()
-  if (user) {
-    username.value = user.username || 'Unknown User'
-  }
+  user.value = await getUser()
 })
 
 function toggleTheme() {
@@ -68,6 +39,7 @@ function toggleTheme() {
 
 const confirmMessage = 'Are you sure you want to sign out?'
 function doSignOut() {
+  user.value = null
   signOutUser()
 }
 function setDialog(bool) {
@@ -82,5 +54,31 @@ function doMenuAction(item) {
   }
 }
 </script>
+
+<template>
+  <v-toolbar density="compact" color="primary">
+    <v-btn icon="mdi-open-in-new">
+      <v-icon icon="mdi-menu"></v-icon>
+      <v-menu activator="parent">
+        <v-list>
+          <v-list-item v-for="(item, index) in items" :key="index" :value="index">
+            <v-list-item-title @click="doMenuAction(item)">{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-btn>
+    <v-toolbar-title>{{ currentRoute }}</v-toolbar-title>
+    <v-spacer></v-spacer>
+    <span v-if="user">Signed in as: {{ user.username }}</span>
+    <v-btn icon @click="toggleTheme">
+      <v-icon v-if="!themeIsDark">mdi-weather-night</v-icon>
+      <v-icon v-if="themeIsDark">mdi-weather-sunny</v-icon>
+    </v-btn>
+    <v-btn icon @click="setDialog(true)">
+      <v-icon>mdi-logout</v-icon>
+    </v-btn>
+  </v-toolbar>
+  <ConfirmDialog :message="confirmMessage" @doAction="doSignOut" ref="confirmDialog" />
+</template>
 
 <style scoped></style>
