@@ -28,7 +28,8 @@ import {
   mdiMenu,
   mdiEmailOutline,
   mdiFileDocumentEdit,
-  mdiAws
+  mdiAws,
+  mdiLogout
 } from '@mdi/js'
 
 // Map icon names to their imported SVG paths
@@ -58,6 +59,7 @@ export const icons = {
   'mdi-menu': mdiMenu,
   'mdi-email-outline': mdiEmailOutline,
   'mdi-file-document-edit': mdiFileDocumentEdit,
-  'mdi-aws': mdiAws
+  'mdi-aws': mdiAws,
+  'mdi-logout': mdiLogout
   // Add more icons here as needed
 }

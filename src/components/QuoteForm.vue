@@ -46,6 +46,7 @@ async function sendForm() {
       } else {
         store.setLoading(false)
         clearForm()
+        formData.id.value = payload.id  + 1
       }
     } catch (error) {
       errorMessage.value = error.message
@@ -120,7 +121,7 @@ async function fetchArticle() {
     <div>
       <v-text-field type="text" id="speaker" v-model="formData.speaker.value" label="Speaker" />
       <v-text-field type="text" id="source" v-model="formData.source.value" label="Source" />
-      <v-text-field type="text" id="id" v-model="formData.id.value" label="Id" readonly />
+      <v-text-field type="text" id="id" v-model="formData.id.value" label="Id" />
     </div>
     <div class="error-message">{{ errorMessage }}</div>
 

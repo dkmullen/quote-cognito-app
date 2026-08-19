@@ -21,7 +21,7 @@ watch(
   <v-app class="bg-background">
     <header>
       <div class="wrapper">
-        <ToolBar />
+        <ToolBar v-if="store.currentUser" />
       </div>
     </header>
     <div class="page-wrapper">
